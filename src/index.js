@@ -25,31 +25,58 @@ document.addEventListener('DOMContentLoaded', ()=>{
 const baseUrl = 'http://localhost:3000/characters'
 
 const getCharacters = () =>{
-  fetch('baseUrl')
+  fetch(baseUrl)
   .then(response => response.json())
   .then(characters=> renderCharacters(characters));
 
 }
-
 const renderCharacters = characters =>{
 
-    const divP = document.querySelector('#detailed-info')
+    const divP = document.querySelector('#character-bar')
     divP.innerHTMl = characters.forEach(character=>renderCharacter(character, divP))
     //console.log(divP)
-    
+
 
 }
 const renderCharacter = (character, divP) => {
-    const Ch = document.createElement('div')
-    ch.innerHTML = `<span>
-    
-    
-    
-    
-    
-    
-    </span>`
+    const charac = document.createElement('div')
+    charac.textContent = `${character.name}`
+    divP.append(charac)
 
+
+
+
+}
+
+const clicker = () => {
+    document.addEventListener("click", e =>{
+        if (e.target.innerHTML === 'Add Calories'){
+
+            const charac = e.target.closest('divP')
+            const attr = charac.children
+            const itsName = attr[0].textContent
+            const itsImage = attr[1].innerHTML.baseUrl
+            const calorie = attr[2].textContent
+             
+            const form = document.querySelector('#detailed-info')
+            form.itsName.value = name
+            form.itsImage.value = image
+            form.calorie = calorie
+            
+    
+
+
+
+        }
+
+
+
+
+
+
+
+
+    })
 }
  
 
