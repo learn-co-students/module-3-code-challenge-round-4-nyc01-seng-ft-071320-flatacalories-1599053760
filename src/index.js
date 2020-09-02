@@ -26,7 +26,12 @@ const updateCharacter = id => {
             calories: newCalories
         })
     }
+    fetch(baseUrl + id, options)
+        .then(resp => resp.json())
+        .then(character => putCharacterOnInfo(character))
 }
+
+
 
 //put character on bar
 const renderCharacter = character => {
@@ -80,12 +85,13 @@ const submitHandler = () => {
         newCalories = parseInt(formId.calories.value)
         
         updateCharacter(id)
-
+        formId.reset()
     })
 }
 
 
 
+//invoke functions
 fetchCharacters()
 clickHandler()
 submitHandler()
