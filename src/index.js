@@ -46,6 +46,7 @@ document.addEventListener("DOMContentLoaded", function(e) {
                     detailedInfo.childNodes[1]['textContent'] = character.name
                     detailedInfo.childNodes[3]['src'] = character.image
                     charCal.innerText = character.calories
+                    charCal.dataset.charId = character.id
                 }
             }
         })
@@ -70,7 +71,22 @@ document.addEventListener("DOMContentLoaded", function(e) {
             const addCals = parseInt(upCal, 10)
             const updatedCals = currentCal + addCals
             // console.log(updatedCals)
-            cal.innerText = updatedCals
+            charCal.innerText = updatedCals
+            // console.log(charCal.innerText)
+
+            const options = {
+                method: "PATCH", 
+                headers: {
+                    "Content-Type": "application/json",
+                    "Accept": "application/json"}, 
+                body: JSON.stringify({calories: updatedCals})
+            }
+
+            // const id = 
+            console.dir(button.previousElementSibling.firstElementChild.dataset.charId)
+            // fetch(baseUrl + id, options)
+            // .then(resp => resp.json())
+            // .then(console.log)
 
 
         })
