@@ -3,6 +3,7 @@
 document.addEventListener('DOMContentLoaded', (event) => {
     console.log('DOM fully loaded and parsed');
     get()
+    reset()
 });
 
 function get(){
@@ -26,6 +27,10 @@ function render(char){
         image.src=char.image
         const span = detail.querySelector('span')
         span.innerText=char.calories
+        //button reeset stuff
+        const reset = detail.querySelector('#reset-btn')
+        reset.dataset.id=char.id
+        //form stuff below
         const form = detail.querySelector('form')
         const idHolder = form.firstElementChild
         idHolder.value=char.id
@@ -34,7 +39,7 @@ function render(char){
             const adder = parseInt(form.calories.value)
             const calories = parseInt(form.previousElementSibling.firstElementChild.innerText)
             const newCalories=calories+adder
-            fetch(`http://localhost:3000/characters/${char.id}`, {
+            fetch(`http://localhost:3000/characters/${idHolder.value}`, {
                 method: "PATCH",
                 headers: {
                     "Content-type": "application/json",
@@ -47,7 +52,29 @@ function render(char){
                     form.previousElementSibling.firstElementChild.innerText=object.calories
                 }) 
                 //end of my fetch //.then starts a new conversation about the object
+            form.reset()
         })
 
     })//This is the end of the Span Event Listerner
 }//This is the end of my render
+
+function reset(){
+    btn= document.querySelector('#reset-btn')
+    btn.addEventListener('click', (e)=>{//console.log("reset ")
+    const id=btn.dataset.id
+    console.log(id)
+    fetch(`http://localhost:3000/characters/${id}`, {
+        method: "PATCH",
+        headers: {
+            "Content-type": "application/json",
+            "accept": "application/json"
+        },
+            body: JSON.stringify({
+                calories:0
+            })
+        }).then(res=>res.json()).then(object=>{//console.log(cal.innerText)//console.log(object.calories)
+            const cal = document.querySelector('#calories')
+            cal.innerText=object.calories
+        }) 
+    })
+}//this is the end of my reset
