@@ -6,6 +6,7 @@ const characterBar = qs('#character-bar')
 const characterInfo = qs('#detailed-info')
 
 
+
 const fetchCharacters = () => {
     fetch(baseUrl)
         .then(resp => resp.json())
@@ -43,8 +44,8 @@ const renderCharInfo = (character) => {
     <img id="image" src="${character.image}" alt="${character.name}">
     <h4>Total Calories: <span id="calories">${character.calories}</span> </h4>
     <form id="calories-form">
-        <input type="hidden" value="${character.id}" id="characterId" />
-        <input type="text" placeholder="Enter Calories" id="calories" />
+        <input type="hidden" value="${character.id}" name="id" id="characterId" />
+        <input type="text" placeholder="Enter Calories" name="calories" id="calories" />
         <input type="submit" value="Add Calories" />
     </form>
     <button id="reset-btn">Reset Calories</button>
@@ -52,9 +53,33 @@ const renderCharInfo = (character) => {
 }
 
 const submitHandler = () => {
+    document.addEventListener('submit', e => {
+        e.preventDefault()
+        const characterForm = qs('#calories-form')
 
+        patchCalories(characterForm)
+    })
 }
 
+const patchCalories = (form) => {
+    let id = form.id.value
+    let currentCals = parseInt(qs('h4 > span').innerHTML)
+    let newCals = parseInt(form.calories.value)
+    let totalCals = currentCals + newCals
 
+    const options = {
+        method: 'PATCH',
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ "calories": totalCals })
+    }
+
+    fetch(baseUrl + id, options)
+        .then(resp => resp.json())
+        .then(renderCharInfo)
+}
+
+submitHandler()
 fetchCharacters()
 clickHandler()
