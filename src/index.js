@@ -2,6 +2,8 @@ const baseURL = 'http://localhost:3000/characters/'
 const charBar = document.querySelector('#character-bar')
 const details = document.querySelector('#detailed-info')
 const form = document.querySelector('#calories-form')
+const resetCal = document.querySelector('#reset-btn')
+
 
 //fetch all the obj's from API
 fetch(baseURL)
@@ -39,15 +41,16 @@ function grabCharInfo(charId){
 
 //display details about character on page
 function displayInfo(character){
-    //details.dataset.id = character.id
     details.children[0].innerText = character.name
     details.children[1].outerHTML = `<img id="image" src=${character.image}>`
     details.children[2].children[0].innerText = character.calories
     details.children[2].dataset.id= character.id
+    form.children[0].id = character.id
 }
 
 form.addEventListener('submit', function(e){
     e.preventDefault();
+    //console.log(form.children[0].id)
     let charId = e.target.previousElementSibling.dataset.id
     let currentCal = e.target.previousElementSibling.children[0].innerText
     e.target.children[0].id =  charId
@@ -79,8 +82,11 @@ function updateCal(newCal, charId){
             let cal = document.querySelector('#calories')
             cal.innerText = update.calories
         }
-    })
-        
-  
+    })   
     
 }
+
+resetCal.addEventListener('click', function(e){
+    let charId = e.target.previousElementSibling[0].id
+    updateCal(0, charId)
+})
