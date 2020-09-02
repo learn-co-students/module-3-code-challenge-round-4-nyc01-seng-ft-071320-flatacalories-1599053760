@@ -1,6 +1,7 @@
 const baseUrl = "http://localhost:3000/characters/"
 const characterBar = document.querySelector("#character-bar")
 const formId = document.querySelector("#calories-form")
+const resetBtn = document.querySelector("#reset-btn")
 
 //fetch
 const fetchCharacters = () => {
@@ -29,6 +30,24 @@ const updateCharacter = id => {
     fetch(baseUrl + id, options)
         .then(resp => resp.json())
         .then(character => putCharacterOnInfo(character))
+        // .catch("please choose a character first")
+}
+
+const resetCalorie = (id) => {
+    const options = {
+        method: "PATCH",
+        headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json"
+        },
+        body: JSON.stringify({
+            calories: 0
+        })
+    }
+    fetch(baseUrl + id, options)
+    .then(resp => resp.json())
+    .then(character => putCharacterOnInfo(character))
+    // .catch("Please choose a character first")
 }
 
 
@@ -49,6 +68,9 @@ const clickHandler = () => {
         if(e.target.tagName==="SPAN"){
             id = e.target.id
             fetchSingleCharacter(id)
+        } else if (e.target.id==="reset-btn"){
+            id = e.target.parentElement.dataset.num
+            resetCalorie(id)
         }
     })
 }
@@ -69,25 +91,26 @@ const putCharacterOnInfo = character => {
     // //calories
     const calories = document.querySelector("#calories")
     calories.textContent = character.calories
-}
 
-//submit handling
-const submitHandler = () => {
-    document.addEventListener("submit", e => {
-        e.preventDefault()
-        //give data number to the parent element
-        id = e.target.parentElement.dataset.num
-        
-        formId.calories.innerHTML = {
-            calories: formId.calories.value
-        }
-        
-        newCalories = parseInt(formId.calories.value)
-        
-        updateCharacter(id)
-        formId.reset()
-    })
-}
+    }
+    
+    //submit handling
+    const submitHandler = () => {
+        document.addEventListener("submit", e => {
+            e.preventDefault()
+            //give data number to the parent element
+            id = e.target.parentElement.dataset.num
+            
+            formId.calories.innerHTML = {
+                calories: formId.calories.value
+            }
+            
+            newCalories = parseInt(formId.calories.value)
+            
+            updateCharacter(id)
+            formId.reset()
+        })
+    }
 
 
 
