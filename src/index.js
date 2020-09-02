@@ -36,7 +36,32 @@ document.addEventListener("DOMContentLoaded", e => {
                     infoContainer.children[1].src = image 
                     infoContainer.children[2].children[0].innerText = calories
                     infoContainer.children[3].dataset.charId = id
+                    infoContainer.children[4].dataset.charId = id
                 }
+            }
+            if (e.target.matches('#reset-btn')) {
+                const button = e.target 
+                const infoContainer = document.getElementById('detailed-info')
+                const charId = parseInt(button.dataset.charId)
+                
+                options = {
+                    method: 'PATCH',
+                    headers: {
+                        'content-type':'application/json',
+                        'accept':'application/json'
+                    },
+                    body: JSON.stringify({
+                        calories: 0
+                    })
+                }
+
+                fetch(baseUrl + charId, options)
+                .then(res => res.json())
+                .then(data => {
+                    const infoContainer = document.getElementById('detailed-info')
+                    infoContainer.children[2].children[0].innerText = ''
+                    infoContainer.children[2].children[0].innerText = data.calories
+                })
             }   
         })
     }
