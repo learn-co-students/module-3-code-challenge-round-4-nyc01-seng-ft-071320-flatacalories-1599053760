@@ -1,50 +1,50 @@
 document.addEventListener('DOMContentLoaded', () => {
     const baseUrl = "http://localhost:3000/characters/"
-
+    
     const getCharacters = () => {
         fetch(baseUrl)
         .then(response => response.json())
         .then(characters => renderCharacters(characters))
     }
-
+    
     const renderCharacters = (characters) => {
         for(const character of characters) {
             renderCharacter(character)
         }
     }
-
+    
     const renderCharacter = (character) => {
         const characterBar = document.querySelector('#character-bar')
         const span = document.createElement('span')
-
-        span.innerHTML = `${character.name}`
+        
+        span.innerText = `${character.name}`
         
         characterBar.append(span)
     }
-
-    // const clickHandler = (character) => {
-    //     document.addEventListener('click', e => {
-    //         if(e.target.matches('span')){
-    //         const characterInfo = document.getElementsByClassName('characterInfo')
-    //         const detaiedInfoDiv = document.getElementById('detailed-info')
-            
-
-    //         detaiedInfoDiv.innerHTML = `
-    //         <p id="name">${character.name}</p>
-    //             <img id="image" src=""https://thumbs.gfycat.com/EquatorialIckyCat-max-1mb.gif""><!-- display character image here -->
-    //             <h4>Total Calories: <span id="calories">Character's Calories</span> </h4>
-    //             <form id="calories-form">
-    //                 <input type="hidden" value="Character's id" id="characterId"/> <!-- Assign character id as a value here -->
-    //                 <input type="text" placeholder="Enter Calories" id="calories"/>
-    //                 <input type="submit" value="Add Calories"/>
-    //             </form>
-    //             <button id="reset-btn">Reset Calories</button>
-    //         `
+    
+    const clickHandler = (character) => {
+        document.addEventListener('click', e => {
+            if(e.target.matches('span')){
+                const characterInfo = document.getElementsByClassName('characterInfo')
+                const detailedInfoDiv = document.getElementById('detailed-info')
+                console.log()
+                
+                detailedInfoDiv.insertAdjacentHTML = `
+                <p id="name">${character.name}</p>
+                <img id="image" src=""${character.image}""><!-- display character image here -->
+                <h4>Total Calories: <span id="calories">Character's Calories ${character.calories}</span> </h4>
+                <form id="calories-form">
+                <input type="hidden" value="Character's id" id="characterId"/> <!-- Assign character id as a value here -->
+                <input type="text" placeholder="Enter Calories" id="calories"/>
+                    <input type="submit" value="Add Calories"/>
+                </form>
+                <button id="reset-btn">Reset Calories</button>
+            `
            
 
-    //         }
-    //     })
-    // }
+            }
+        })
+    }
 
     const submitHandler = () => {
         document.addEventListener('submit', e => {
@@ -52,10 +52,13 @@ document.addEventListener('DOMContentLoaded', () => {
             const button = e.target
             const form = document.querySelector('#calories-form')
             const formChildren = form.children
-            console.log(formChildren)
+            const totalCalories = 0
 
 
             const calories = form.calories.value
+            totalCalories += calories
+
+            form.dataset.id = character.id
         })
 
         const options = {
@@ -66,9 +69,9 @@ document.addEventListener('DOMContentLoaded', () => {
             }, 
             body: JSON.stringify({calories: calories})
         }
-        // fetch(baseUrl + id, options)
-        // .then(response => response.json())
-        // .then(character => getCharacters)
+        fetch(baseUrl + id, options)
+        .then(response => response.json())
+        .then(character => getCharacters)
     }
 
     
@@ -76,7 +79,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 submitHandler() 
-// clickHandler()
+clickHandler()
 getCharacters()
 })
 
