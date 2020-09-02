@@ -82,9 +82,9 @@ document.addEventListener("DOMContentLoaded", function(e) {
                 body: JSON.stringify({calories: updatedCals})
             }
 
-            // const id = 
-            console.dir(button.previousElementSibling.firstElementChild.dataset.charId)
-            // fetch(baseUrl + id, options)
+            const id = button.previousElementSibling.firstElementChild.dataset.charId
+            // console.dir(button.previousElementSibling.firstElementChild.dataset.charId)
+            fetch(baseUrl + id, options)
             // .then(resp => resp.json())
             // .then(console.log)
 
