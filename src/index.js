@@ -6,6 +6,12 @@ const qs = selector => document.querySelector(selector)
 const characterBar = gid('character-bar')
 const caloriesForm = gid('calories-form')
 const resetBtn = gid('reset-btn')
+const editBtn = ce('button')
+    editBtn.innerText = "Change Name"
+    editBtn.classList.add('edit-name')
+const nameForm = ce('form')
+const detailedInfo = gid('detailed-info')
+const name = gid('name')
 
 function getCharacters() {
     fetch(baseURL)
@@ -28,14 +34,15 @@ function displayCharacterName(character) {
 }
 
 function displayCharacterInfo(character) {
-    const name = gid('name')
     const img = gid('image')
     const calories = gid('calories')
     
+    editBtn.dataset.characterId = character.id
     caloriesForm[0].value = character.id
     name.innerText = character.name
     img.src = character.image
     calories.innerText = character.calories
+    name.append(editBtn)
 }
 
 characterBar.addEventListener('click', e => {
@@ -68,23 +75,58 @@ function changeCalories(target) {
             calories: totalCalories
         })
     } 
-
+    
     fetch(baseURL + characterId, config)
     .then(resp => resp.json())
     .then(character => displayCharacterInfo(character))
-
+    
 }
 
-caloriesForm.addEventListener('submit', e => {
+detailedInfo.addEventListener('submit', e => {
     e.preventDefault()
-    changeCalories(e.target)
+    if (e.target === caloriesForm) {
+        changeCalories(e.target)
+    } else if (e.target === nameForm) {
+        const newName = e.target.name.value
+        const characterId = e.target.previousSibling.dataset.characterId
+        console.log(characterId)
+        const config = {
+            method: "PATCH",
+            headers: {
+                "content-type": "application/json",
+                "accepts": "application/json"
+            },
+            body: JSON.stringify({
+                name: newName
+            })
+        }
+        fetch(baseURL + characterId, config)
+        .then(resp => resp.json())
+        .then(character => displayCharacterInfo(character))
+    }
 })
 
-resetBtn.addEventListener('click', e => {
-    changeCalories(e.target)
+detailedInfo.addEventListener('click', e => {
+    if (e.target === resetBtn) {
+        changeCalories(e.target)
+    } 
+    else if (e.target === editBtn) {
+        console.log('howdy')
+        nameForm.innerHTML = `
+        <input type="text" name="name" placeholder="New Name Here"/>
+        <input type="submit" value="Submit"/>
+        ` 
+    name.append(nameForm)
+    }
 })
 
 getCharacters()
 
 
 
+/*
+add edit button
+add event listener to button
+create form on click
+fetch patch on submit
+*/
