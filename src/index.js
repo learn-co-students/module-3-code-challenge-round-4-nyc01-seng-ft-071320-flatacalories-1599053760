@@ -17,8 +17,7 @@ function render(char){
     bar.append(span)
     span.innerText=char.name
     span.dataset.id=char.id
-    span.addEventListener('click',(e)=>{
-        console.log("you in the span, man")
+    span.addEventListener('click',(e)=>{//console.log("you in the span, man")
         const detail = document.querySelector('#detailed-info')
         detail.dataset.id=char.id
         const name = detail.firstElementChild
@@ -30,6 +29,22 @@ function render(char){
         const form = detail.querySelector('form')
         const idHolder = form.firstElementChild
         idHolder.value=char.id
+        form.addEventListener('submit',(e)=>{
+            console.log("ya be pushing the submit button, fool")
+            e.preventDefault()
+            console.log(form)
+            const calories = parseInt(char.calores) + form.calories.value
+            fetch(`http://localhost:3000/characters/${char.id}`, {
+                method: "PATCH",
+                headers: {
+                    "Content-type": "application/json",
+                    "accept": "application/json"
+                },
+                    body: JSON.stringify({
+                        calories:calories
+                    })
+                })//end of my fetch
+        })
 
     })//This is the end of the Span Event Listerner
 }//This is the end of my render
