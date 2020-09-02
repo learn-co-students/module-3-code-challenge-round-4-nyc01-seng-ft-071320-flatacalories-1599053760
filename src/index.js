@@ -46,9 +46,13 @@ const clickHandler = () => {
     }
   })
   charPage.addEventListener('click', e => {
+    const charId = parseInt(qs('#characterId').value)
     if (e.target.matches('#reset-btn')) {
-      const charId = parseInt(qs('#characterId').value)
       resetCal(charId)
+    }
+    if (e.target.matches('#edit-btn')) {
+      e.target.style.visibility = 'hidden'
+      editButton()
     }
   })
 }
@@ -57,6 +61,8 @@ const renderChar = (char) => {
   charPage.innerHTML = `
   <div id="detailed-info">
   <p id="name">${char.name}</p>
+  <button id="edit-btn" style="{visibility: visible}">Edit Name</button>
+  <br><br>
   <img id="image" src="${char.image}"><!-- display character image here -->
   <h4>Total Calories: <span id="calories">${char.calories}</span> </h4>
   <form id="calories-form">
@@ -105,8 +111,8 @@ const submitHandler = () => {
 
 //RESET CALORIE COUNTER
 /*
-  1. ADD RESET BUTTON TO CLICKHANDLER
-  2. SEND PATCH REQUEST MUCH LIKE SUBMITHANDLER
+ √ 1. ADD RESET BUTTON TO CLICKHANDLER
+ √ 2. SEND PATCH REQUEST MUCH LIKE SUBMITHANDLER
 */
 const resetCal = (charId) => {
   const options = {
@@ -124,8 +130,30 @@ const resetCal = (charId) => {
     .then(resp => resp.json())
     .then(char => renderChar(char))
 }
+
+// ADD CHAR EDIT FORM
 /*
-Clicks on a Reset Calories button to set calories to 0. Persist calories value to the server and update the DOM.
+  1. ADD EDIT BUTTON TO TOP OF SHOW PAGE
+  2. ADD BUTTON TO CLICKHANDLER
+  3. ONCE CLICKED POPULATE FORM TO EDIT NAME
+  4. SEND PATCH REQUEST WITH NEW NAME
+*/
+const editButton = () => {
+  const form = ce('form')
+  form.innerHTML = `
+  <input type="text" placeholder="Enter Name" id="edit-name"/>
+  <input type="submit" value="Submit Name"/>
+  `
+
+  const editVal = form.querySelector('#edit-name').value
+
+
+  const p = qs('#name')
+
+  p.append(form)
+  debugger
+}
+/*
 Change character's name
 Add a new character
 */
