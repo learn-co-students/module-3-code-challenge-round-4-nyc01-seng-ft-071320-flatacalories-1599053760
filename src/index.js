@@ -7,10 +7,6 @@ const allCharNames = document.querySelector("#character-bar")
 const calorieForm = document.querySelector("#calories-form")
 const resetCalorieBtn = document.querySelector("#reset-btn")
 const charCalories = document.querySelector("#calories")
-console.log(charUrl + 3)
-
-
-
 
 
 // need <span> tag for each character
@@ -29,8 +25,6 @@ console.log(charUrl + 3)
           allCharNames.appendChild(charSpan)
           charSpan.className = `${characters[i].name}`
           renderCharacter(characters[i])
-
-
 
         }
               allCharNames.addEventListener('click', function(event){
