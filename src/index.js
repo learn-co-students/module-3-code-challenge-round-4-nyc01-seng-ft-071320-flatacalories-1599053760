@@ -63,12 +63,17 @@ function clickHandler(){
             .then(res => res.json())
             .then(renderChar)
         }
-        if (e.target.matches(#reset-btn)){
+        if (e.target.matches("#edit-btn")){
             form = document.createElement("form")
-            container = document.getElementsByTagName("h4")
+            container = document.querySelector("#detailed-info")
+            form.id = "name-form"
             form.innerHTML = `
+            <input type="text" placeholder="New Name" id="newname">
+            <input type="submit" value="Change Name">
             `
+            container.prepend(form)
         }
+      
     })
     document.addEventListener('submit', e => {
         e.preventDefault()
@@ -86,6 +91,23 @@ function clickHandler(){
                     "accept": "application/json"
                 },
                 body: JSON.stringify({calories: currentCal})
+            }
+            fetch(baseUrl+id, options)
+                .then(res => res.json())
+                .then(renderChar)
+        }
+
+        if (e.target.matches("#name-form")){
+            id = document.querySelector("#calories-form").dataset.charId
+            newName= e.target.newname.value
+            e.target.reset()
+            options = {
+                method: "PATCH",
+                headers: {
+                    "content-type": "application/json",
+                    "accept": "application/json"
+                },
+                body: JSON.stringify({name: newName})
             }
             fetch(baseUrl+id, options)
                 .then(res => res.json())
