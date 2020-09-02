@@ -45,6 +45,12 @@ const clickHandler = () => {
         .then(char => renderChar(char))
     }
   })
+  charPage.addEventListener('click', e => {
+    if (e.target.matches('#reset-btn')) {
+      const charId = parseInt(qs('#characterId').value)
+      resetCal(charId)
+    }
+  })
 }
 
 const renderChar = (char) => {
@@ -65,8 +71,8 @@ const renderChar = (char) => {
 
 //ADD CALORIES TO CHAR
 /*
-1. ADD SUBMITHANDLER EVENTLISTENER
-2. SEND PATCH REQUEST TO SERVER WITH UPDATED INFO
+ √ 1. ADD SUBMITHANDLER EVENTLISTENER
+ √ 2. SEND PATCH REQUEST TO SERVER WITH UPDATED INFO
 */
 const submitHandler = () => {
   charPage.addEventListener('submit', e => {
@@ -96,8 +102,32 @@ const submitHandler = () => {
       .then(char => renderChar(char))
   })
 }
+
+//RESET CALORIE COUNTER
 /*
-Clicks on "Add Calories" button to add calories to a Character. Persist calories value to the server and update the DOM.
+  1. ADD RESET BUTTON TO CLICKHANDLER
+  2. SEND PATCH REQUEST MUCH LIKE SUBMITHANDLER
+*/
+const resetCal = (charId) => {
+  const options = {
+    method: 'PATCH',
+    headers: {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json'
+    },
+    body: JSON.stringify({
+      "calories": 0
+    })
+  }
+
+  fetch(baseUrl + charId, options)
+    .then(resp => resp.json())
+    .then(char => renderChar(char))
+}
+/*
+Clicks on a Reset Calories button to set calories to 0. Persist calories value to the server and update the DOM.
+Change character's name
+Add a new character
 */
 
 clickHandler()
