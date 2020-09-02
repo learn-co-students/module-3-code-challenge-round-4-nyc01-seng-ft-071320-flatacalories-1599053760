@@ -23,24 +23,42 @@ function getCharacters() {
 function renderCharacters(character) {
     const characterBar = document.querySelector('#character-bar')
     const spanName = document.createElement('span')
-    const characterInfo = document.querySelector('.characterInfo')
-    const detailedInfo = document.querySelector('#detailed-info')
-
   
-
     spanName.innerHTML = character.name
 
     characterBar.appendChild(spanName)
+}
 
-    characterInfo.appendChild(detailedInfo)
+const clickMe = () => {
+    const span = document.getElementById('character-bar').childNodes
+    console.log(span)
+    span.addEventListener('click', (e) => {
+        console.log(e.target)
+        
+   
+            
+            const characterInfo = document.querySelector('.characterInfo')
+            const detailedInfo = document.querySelector('#detailed-info')
+            const nameId = document.querySelector('#name')
+            const imgId = document.querySelector('#image')
+            const caloriesSpan = document.querySelector('#calories')
 
+            nameId.innerHTML = character.name
+            imgId.innerHTML = character.image
+            caloriesSpan.innerHTML = character.calories
 
+            characterInfo.appendChild(detailedInfo)
+            detailedInfo.appendChild(nameId)
+            detailedInfo.appendChild(imgId)
+            detailedInfo.appendChild(caloriesSpan)
+  
+    })
+       
 }
 
 
-
-
 getCharacters()
+clickMe()
 
 
 
