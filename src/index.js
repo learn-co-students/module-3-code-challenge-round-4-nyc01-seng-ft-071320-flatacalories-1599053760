@@ -1,4 +1,12 @@
 document.addEventListener('DOMContentLoaded', () => {
+    function addBtn(){
+   const button = document.createElement("button")
+   button.innerHTML = `
+   <button>Add Character</button>
+   `
+   container = document.querySelector("#name")
+   container.prepend(button)
+    }
     
 const baseUrl = "http://localhost:3000/characters/"
 function dataHandler(){
@@ -64,6 +72,10 @@ function clickHandler(){
             .then(renderChar)
         }
         if (e.target.matches("#edit-btn")){
+            if(document.querySelector("#name-form")){
+                oldForm = document.querySelector("#name-form")
+                oldForm.remove()
+            }else{
             form = document.createElement("form")
             container = document.querySelector("#detailed-info")
             form.id = "name-form"
@@ -73,6 +85,7 @@ function clickHandler(){
             `
             container.prepend(form)
         }
+    }
       
     })
     document.addEventListener('submit', e => {
@@ -83,36 +96,26 @@ function clickHandler(){
             newCal = e.target.calories.value
             currentCal = parseInt(oldCal) + parseInt(newCal)
             e.target.reset()
-
-            options = {
-                method: "PATCH",
-                headers: {
-                    "content-type": "application/json",
-                    "accept": "application/json"
-                },
-                body: JSON.stringify({calories: currentCal})
-            }
-            fetch(baseUrl+id, options)
-                .then(res => res.json())
-                .then(renderChar)
+            data = {calories: currentCal}
         }
 
         if (e.target.matches("#name-form")){
             id = document.querySelector("#calories-form").dataset.charId
             newName= e.target.newname.value
             e.target.reset()
-            options = {
-                method: "PATCH",
-                headers: {
-                    "content-type": "application/json",
-                    "accept": "application/json"
-                },
-                body: JSON.stringify({name: newName})
-            }
-            fetch(baseUrl+id, options)
-                .then(res => res.json())
-                .then(renderChar)
+            data = {name: newName}
         }
+                options = {
+                    method: "PATCH",
+                    headers: {
+                        "content-type": "application/json",
+                        "accept": "application/json"
+                    },
+                    body: JSON.stringify(data)
+                }
+                fetch(baseUrl+id, options)
+                    .then(res => res.json())
+                    .then(renderChar)
         
     })
 }
@@ -129,7 +132,7 @@ function clickHandler(){
 
 
 
-
+addBtn()
 clickHandler()
 dataHandler()
 })
