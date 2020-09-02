@@ -3,7 +3,6 @@ document.addEventListener('DOMContentLoaded', () => {
   const ce = tag => document.createElement(tag)
   const qs = selector => document.querySelector(selector)
   const charBar = qs('#character-bar')
-  const infoDiv = qs('#detailed-info')
   const calorieForm = qs('#calories-form')
   
   const getChars = () => {
@@ -43,7 +42,6 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   const showChar = char => {
-    // infoDiv.dataset.charId = char.id
     qs('#characterId').value = char.id
     qs('#name').textContent = char.name
     qs('#image').src = char.image
@@ -55,7 +53,9 @@ document.addEventListener('DOMContentLoaded', () => {
       e.preventDefault()
       switch (true) {
         case e.target === calorieForm:
-          addCalorie(e.target)
+          if (e.target[0].value !== "Character's id") {
+            addCalorie(e.target)
+          }
           break
         default:
           break
@@ -67,7 +67,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const currentCalorie = parseInt(qs('#calories').textContent)
     const addCalorie = parseInt(target[1].value)
     const charId = target[0].value
-    debugger
     const options = {
       method: 'PATCH',
       headers: {
@@ -83,10 +82,9 @@ document.addEventListener('DOMContentLoaded', () => {
     .then(res => res.json())
     .then(char => {
       qs('#calories').textContent = char.calories
+      target.reset()
     })
   }
-
-
 
   getChars()
   clickHandler()
