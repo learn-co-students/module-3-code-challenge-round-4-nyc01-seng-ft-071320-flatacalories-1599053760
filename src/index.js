@@ -47,14 +47,23 @@ document.addEventListener("DOMContentLoaded", () => {
     const renderCharacterInfo = (character) => {
         // render show character
         // find detailed info
-        let characterInfoDiv = document.getElementById('detailed-info')
+        let characterInfoDiv = document.querySelector('.character-info')
+        let detailedInfoDiv = document.getElementById('detailed-info')
         let characterImage = document.getElementById('image')
         let characterName = document.getElementById('name')
         let characterCalories = document.getElementById('calories-form')
         
-        charact
-        
-        console.log(characterInfoDiv)
+        detailedInfoDiv.innerHTML = `
+        <p id="name">${character.name}</p>
+        <img id="image" src=${character.image}>
+        <h4>Total Calories: <span id="calories">${character.calories}</span></h4>
+        <form id="calories-form">
+            <input type="hidden" value="Character's id" id="${character.id}">
+            <input type="text" placeholder="Enter Calories" id="calories">
+            <input type="submit" value="Add Calories">
+        </form>
+        <button id="reset-btn">Reset Calories</button>
+        ` 
     }
 
     getCharacters()
