@@ -22,8 +22,6 @@ document.addEventListener("DOMContentLoaded",function(event){
 
     function renderCharacter(character) {
         const newSpan = document.createElement("span")
-        // newSpan.dataset.id = character.id
-
         newSpan.innerHTML = `
         <h2 data-set=${character.id}>${character.name}</h2>
         `
@@ -34,23 +32,20 @@ document.addEventListener("DOMContentLoaded",function(event){
     function characterListener(character){
         document.addEventListener("click", function(event){
             
-            debugger
-        if (event.target.innerText == character.name){ 
-            let charName = character.name
-            let charImg = character.image
-            let charCalories = character.calories
-            let charId = character.id
-
-            const li = document.createElement("li")
-            li.innerHTML = `
-               <h2>${charId}<h2>
-            `
-
-            form.append(li)
-            imgDi.src.innerHTML = charImg
-            nameDi.innerHTML = charName
-            caloriesDi.innerHTML = charCalories
-            
+            if (event.target.innerText == character.name){ 
+                let charName = character.name
+                let charImg = character.image 
+                let charCalories = character.calories
+                let charId = character.id
+                let formId = form.children[0].value
+                
+                
+                formId.innerHTML = `${charId}`
+                imgDi.src.innerHTML = charImg //not rendering image
+                nameDi.innerHTML = charName
+                caloriesDi.innerHTML = charCalories
+                
+                debugger
             }
         })
     }
@@ -62,7 +57,7 @@ document.addEventListener("DOMContentLoaded",function(event){
             event.preventDefault();
             if (event.target) {
                 let newCal = event.target.children[1].value
-                let id = //
+                let id = form.children[0].value //need an idea
                 updateCalories(newCal,id)
             }
 
@@ -82,7 +77,7 @@ document.addEventListener("DOMContentLoaded",function(event){
         }
 
             fetch(baseUrl + id,options).then(response => response.json).then(data => {
-                console.log(data)
+                console.log(data) // update calories TOTAL CAL not whole page
             })
         
 
