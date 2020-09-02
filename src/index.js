@@ -19,20 +19,28 @@ document.addEventListener('DOMContentLoaded', () => {
         const charBar = document.getElementById('character-bar')
         const span = document.createElement('span')
         span.innerHTML = character.name
+        span.id = character.id
         span.dataset.name = "span"
         charBar.append(span)
     }
 
-    // Grabbing the display div//
-    const infoDiv = document.getElementById('detailed-info')
-    // console.log(infoDiv)
+   
     
     
     //click Handling//
     const clickHandler = () => {
         document.addEventListener('click', e => {
             if(e.target.dataset.name === 'span') {
-                console.log("hello")
+                
+                //grabbing the clicked characters name//
+            const charClicked = e.target          
+                
+                // Grabbing the display div//
+            const infoDiv = document.getElementById('detailed-info')
+                    console.dir(infoDiv)
+                
+
+
             }
         })
 
