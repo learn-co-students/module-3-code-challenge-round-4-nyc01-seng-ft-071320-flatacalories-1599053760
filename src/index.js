@@ -30,6 +30,12 @@ const clickHandler = () => {
             fetchChar(charId)
         }
     })
+    characterInfo.addEventListener('click', e => {
+        if (e.target.matches('button')) {
+            const characterForm = qs('#calories-form')
+            patchCalories(characterForm, true)
+        }
+    })
 }
 
 const fetchChar = (charId) => {
@@ -61,11 +67,12 @@ const submitHandler = () => {
     })
 }
 
-const patchCalories = (form) => {
+const patchCalories = (form, reset = false) => {
     let id = form.id.value
     let currentCals = parseInt(qs('h4 > span').innerHTML)
     let newCals = parseInt(form.calories.value)
     let totalCals = currentCals + newCals
+    if (reset) { totalCals = 0 }
 
     const options = {
         method: 'PATCH',
