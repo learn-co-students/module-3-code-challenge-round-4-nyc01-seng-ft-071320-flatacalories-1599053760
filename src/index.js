@@ -49,10 +49,57 @@ document.addEventListener('DOMContentLoaded', e=> {
                     charCals.innerText = calories
                     let charID = document.querySelector('#characterId')
                     charID.value = id
+
+                    let editButton = document.createElement('button')
+                    editButton.innerText = 'Edit Name'
+                    editButton.dataset.id = id
+                    editButton.id = "edit-button"
+                    charName.append(editButton)
+                    
+                    
                     }
                 )
             }
-        })
+            else if(e.target.matches('#reset-btn')){
+                let charID = parseInt((e.target.previousElementSibling.firstElementChild.value),10)
+                let resetCals = 0
+
+                const options = {
+                    method: "PATCH",
+                    headers:{
+                        'content-type': 'application/json',
+                        'accept': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        calories: resetCals
+                    })
+                }
+
+                fetch(baseURL+charID, options)
+                .then(resp => resp.json())
+                .then(char =>{
+                    let charCals = document.querySelector('#calories')
+                    charCals.innerText = resetCals
+                })
+            }
+        else if(e.target.matches('#edit-button')){
+            let editTag = document.querySelector('#name').firstElementChild
+            console.log(editTag)
+            if (e.target.innerText === 'Edit Name'){
+                editTag.insertAdjacentHTML('afterend', `
+                <form id="name-form">
+                    <input type="text" placeholder="New Name" id="new-name"/>
+                    <input type="submit" value="Change Name"/>
+                </form>
+                `)
+                e.target.innerText === 'Close'    
+            }
+            else if(e.target.innerText === 'Edit'){
+                document.querySelector('#name-form').innerText = ''
+                e.target.innerText === 'Edit Name'
+            }
+        }
+    })
     }
 
     const submitHandler = () => {
@@ -72,7 +119,7 @@ document.addEventListener('DOMContentLoaded', e=> {
                 newCharCals = parseInt(oldCharCals,10) + parseInt(charCalories,10)
                 console.log(newCharCals)
 
-                options = {
+                const options = {
                     method: "PATCH",
                     headers: {
                         'content-type': 'application/json',
@@ -90,6 +137,35 @@ document.addEventListener('DOMContentLoaded', e=> {
                     charCals.innerText = newCharCals
                     form.reset()
                 })
+            }
+            else if (e.target.matches('#name-form')){
+                let form = e.target
+                let newName = form.firstElementChild.value
+                let charID = e.target.previousElementSibling.dataset.id
+                console.log(charID, newName)
+
+                const options = {
+                    method: "PATCH",
+                    headers: {
+                        'content-type': 'application/json',
+                        'accept': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        name: newName
+                    })
+                }
+
+                fetch(baseURL+charID, options)
+                .then(resp => resp.json())
+                .then(char =>{
+                    let charName = document.querySelector('#name')
+                    charName.innerText = newName
+                })
+
+
+
+
+
             }
         })
     }
