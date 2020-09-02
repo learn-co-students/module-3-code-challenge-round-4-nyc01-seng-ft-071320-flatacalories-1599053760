@@ -60,8 +60,10 @@ document.addEventListener("DOMContentLoaded", function(e){
             body: JSON.stringify({
                 "calories":cals
             })
+            //tried to render pessimistically to get new value to show immediately on frontend but got a little mixed upgit
         })
     }
+    fetchAllChars()
 
     infoDeets.addEventListener("submit", function(e){
         e.preventDefault()
@@ -73,12 +75,12 @@ document.addEventListener("DOMContentLoaded", function(e){
 
         calories.textContent = updated
         e.target.reset()
-        
+
+        //PATCH WORKs!! updates on backend but need to refresh page and click character 
+        //to see new value under character calories on frontend 
     })
 
 })
-
-
 
 /*
 DONE √ 1. See all characters names in a `div` with the id of `"character-bar"`. 
@@ -105,7 +107,7 @@ DONE √ 2. Select a character from the character bar and see character's info i
         </div>
 
 
-3. Clicks on "Add Calories" button to add calories to a Character. 
+DONE √ 3. Clicks on "Add Calories" button to add calories to a Character. 
 Persist calories value to the server and update the DOM.
 
 //submit listener for inpu4, grab calories value
