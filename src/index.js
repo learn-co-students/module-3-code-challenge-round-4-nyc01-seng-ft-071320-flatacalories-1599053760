@@ -42,8 +42,6 @@ document.addEventListener("DOMContentLoaded", function() {
         charInfo.insertAdjacentHTML('beforeend', `
         <button id="edit" data-id=${char.id}>Edit Name</button>`
         )
-
-        editName(char)
     }
 
     function clickHandler() {
@@ -78,7 +76,24 @@ document.addEventListener("DOMContentLoaded", function() {
             }
 
             if (click.matches('#edit')) {
+                const newForm = document.createElement('form') 
+                newForm.innerHTML = ''
                 
+                if (click.innerText === "Edit Name") {
+                    click.innerText = "Nvm, I like my name :)"
+                   
+                    newForm.innerHTML = `
+                    <input type='text' placeholder='New Name' id='new-name'>
+                    <input type='submit' data-id='${click.dataset.id}'>
+                    `
+                    newForm.id = 'edit-form'
+                    charInfo.append(newForm)
+
+                } else if (click.innerText === "Nvm, I like my name :)") {
+                    const editForm = document.querySelector('#edit-form')
+                    editForm.style.display = 'none'
+                    click.innerText = "Edit Name"
+                }
             }
         })
     }
@@ -116,15 +131,15 @@ document.addEventListener("DOMContentLoaded", function() {
         })
     }
 
-    function editName(char) {
-        charInfo.insertAdjacentHTML('beforeend', `
-        <form id='edit' display='none'>
-        <input type='text' placeholder=${char.name} id='new-name'>
-        <input type='submit' data-id=${char.id}>
-        </form>
-        `)
+    // function editName(char) {
+    //     charInfo.insertAdjacentHTML('beforeend', `
+    //     <form id='edit' display='none'>
+    //     <input type='text' placeholder='${char.name}' id='new-name'>
+    //     <input type='submit' data-id=${char.id}>
+    //     </form>
+    //     `)
                 
-    }
+    // }
 
     getCharacters()
     clickHandler()
