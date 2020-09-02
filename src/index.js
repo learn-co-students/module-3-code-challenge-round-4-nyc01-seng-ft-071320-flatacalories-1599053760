@@ -3,7 +3,7 @@ document.addEventListener("DOMContentLoaded", function(e){
     const charBar = document.querySelector("#character-bar")
     const infoDeets = document.querySelector("#detailed-info")
     const calories = document.querySelector("#calories")
-    // console.log(calories)
+    console.log(calories)
 
     fetchAllChars = ()=>{
         fetch(url)
@@ -50,31 +50,31 @@ document.addEventListener("DOMContentLoaded", function(e){
         }
     })
 
-    // updateCharacter = (cals, id) =>{
-    //     fetch(`${url}/${id}`, {
-    //         method: "PATCH", 
-    //         headers: {
-    //             "Content-Type": "application/json",
-    //             "Accepts": "application/json"
-    //         }, 
-    //         body: JSON.stringify({
-    //             "calories":cals
-    //         })
-    //     })
-    // }
+    updateCharacter = (cals, id) =>{
+        fetch(`${url}/${id}`, {
+            method: "PATCH", 
+            headers: {
+                "content-type": "application/json",
+                "accepts": "application/json"
+            }, 
+            body: JSON.stringify({
+                "calories":cals
+            })
+        })
+    }
 
     infoDeets.addEventListener("submit", function(e){
         e.preventDefault()
-        let currentCalories = e.target.parentElement.children[3].textContent
-        console.log(currentCalories)
-        // let updated = Number(e.target.calories.value) + Number(currentCalories)
-        // let id = e.target.children[0].id
-        // updateCharacter(updated, id)
+        let currentCalories = (e.target.parentElement.children[3].textContent)
+        let updated = Number(e.target.calories.value) + Number(currentCalories)
+        let id = e.target.children[0].id
+        
+        updateCharacter(updated, id)
 
-        // calories.textContent = updated
-        // e.target.reset()
+        calories.textContent = updated
+        e.target.reset()
+        
     })
-
 
 })
 
