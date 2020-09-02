@@ -8,6 +8,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const charName = document.getElementById('name')
     const charImage = document.getElementById('image')
     const charCal = document.getElementById('calories')
+    const charSpanTag = document.querySelector('.charClass')
     // debugger
     const getCharacters = () => {
         fetch(baseURL)
@@ -27,34 +28,48 @@ document.addEventListener("DOMContentLoaded", () => {
         charSpan.className = 'charClass'
         charSpan.textContent = char.name
         charBar.append(charSpan)
-
-    }
-
-    const clickHandler = () => {
-        document.addEventListener('click', (e) => {
+        
+        // clickHandler(char)
+        charSpan.addEventListener('click', (e) => {
             if(e.target.className === 'charClass') {
-                console.log(e.target)
+                renderChar(char)
             }
         })
     }
 
     const renderChar = (char) => {
-        
-        
         charName.textContent = char.name
         charImage.src = char.image
+
+        charCal.dataset.id = char.id
         charCal.textContent = char.calories
     }
 
+    const addCalories = () => {
+        let id = charCal.dataset.id
+        id
+        debugger
+        // fetch(baseURL + )
+    }
+
     getCharacters()
-    clickHandler()
+    // addCalories()
 })
 /*
-Select a character from the character bar and see character's info inside #detailed-info div.
+Clicks on "Add Calories" button to add calories to a Character. 
+
+todo - create event listener on submit on calForm
+todo - access inner text of charcal edit to number in form
+    todo - patch fetch req
+todo - persist data to db
+
+Persist calories value to the server and update the DOM.
+
+//Select a character from the character bar and see character's info inside #detailed-info div.
 //todo - renderChar
 //todo - edit fields to #detailed-info div
 
-todo - add click handler for showing character detailed info
+//todo - add click handler for showing character detailed info
 
 
 //See all characters names in a div with the id of "character-bar". 
