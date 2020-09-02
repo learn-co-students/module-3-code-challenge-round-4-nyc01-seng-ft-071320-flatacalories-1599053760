@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
-    const baseURL = "http://localhost:3000/characters"
+    const baseURL = "http://localhost:3000/characters/"
     const charBar = document.getElementById('character-bar')
     const charContainer = document.querySelector('.characterInfo')
     const charInfo = document.getElementById('detailed-info')
@@ -40,26 +40,51 @@ document.addEventListener("DOMContentLoaded", () => {
     const renderChar = (char) => {
         charName.textContent = char.name
         charImage.src = char.image
+        charImage.dataset.id = char.id
+        
 
-        charCal.dataset.id = char.id
         charCal.textContent = char.calories
+        // addCalories(char)
     }
 
     const addCalories = () => {
-        let id = charCal.dataset.id
-        id
-        debugger
-        // fetch(baseURL + )
+    // const addCalories = (char) => {
+        calForm.addEventListener("submit", (e) => {
+            e.preventDefault()
+
+            const calInput = e.target.calories
+            const calDisplay = e.target.previousElementSibling.innerText
+            let calNum = parseInt(e.target.previousElementSibling.innerText.split(' ')[2])
+            let charId = e.target.previousElementSibling.previousElementSibling.dataset.id
+            
+            // console.log(e.target)
+            // debugger
+
+            const options = {
+                method: 'PATCH',
+                headers: {
+                    'Content-Type': 'application/json'
+                    // 'Accept': 'application/json',
+                },
+                body: JSON.stringify({
+                    calories: calNum += parseInt(calInput.value)
+                })
+            }
+
+            fetch(baseURL + charId, options)
+            .then(response => response.json())
+            .then(console.log)
+        })
     }
 
     getCharacters()
-    // addCalories()
+    addCalories()
 })
 /*
 Clicks on "Add Calories" button to add calories to a Character. 
 
-todo - create event listener on submit on calForm
-todo - access inner text of charcal edit to number in form
+//todo - create event listener on submit on calForm
+//todo - access inner text of charcal edit to number in form
     todo - patch fetch req
 todo - persist data to db
 
