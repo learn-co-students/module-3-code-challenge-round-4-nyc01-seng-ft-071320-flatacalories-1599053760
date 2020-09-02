@@ -2,21 +2,21 @@
   "characters": [
     {
       "id": 1,
-      "name": "Mr. Cute",
+      "name": "Mr C",
       "image": "https://thumbs.gfycat.com/EquatorialIckyCat-max-1mb.gif",
-      "calories": 100
+      "calories": null
     },
     {
       "id": 2,
-      "name": "Mr. Monkey",
+      "name": "Monkers",
       "image": "https://thumbs.gfycat.com/FatalInnocentAmericanshorthair-max-1mb.gif",
       "calories": 0
     },
     {
       "id": 3,
-      "name": "Miss. Zebra",
+      "name": "Zeber",
       "image": "https://media2.giphy.com/media/20G9uNqE3K4dRjCppA/source.gif",
-      "calories": 0
+      "calories": 100
     },
     {
       "id": 4,
@@ -26,7 +26,7 @@
     },
     {
       "id": 5,
-      "name": "Mr. Panda",
+      "name": "Sadboi",
       "image": "https://media.giphy.com/media/ALalVMOVR8Qw/giphy.gif",
       "calories": 0
     },

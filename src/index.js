@@ -37,6 +37,9 @@ document.addEventListener("DOMContentLoaded", (e) => {
                 patchCalories(enteredNum)
             } else if(button.matches("#reset-btn")){
                 resetCalories()
+            } else if(button.matches("#name-change")){
+                let newName = button.previousElementSibling.value
+                nameChange(newName)
             }
         })
     }
@@ -57,6 +60,11 @@ document.addEventListener("DOMContentLoaded", (e) => {
         <input type="submit" value="Add Calories" class="add-calories-btn" data-id=${characterObj.id}>
         <br><br>
         <button id="reset-btn" data-id=${characterObj.id}>Reset Calories</button>
+        <br><br>
+        <input type="text" placeholder="Enter New Name">
+        <button id="name-change" data-id=${characterObj.id}> Change Name </button>
+        <input type="text" placeholder="Enter a new character"
+        <button id="new-character"> New Character </button>
         `
     }
 
@@ -104,23 +112,31 @@ document.addEventListener("DOMContentLoaded", (e) => {
         })
     }
 
+    function nameChange(newName){
+        let id = button.dataset.id
+        // debugger
+        const options = {
+            "method": "PATCH",
+            "headers": {
+                "Content-Type": "application/json",
+                "accept": "application/json"
+            },
+        body: JSON.stringify({ name: newName })
+        }
+        fetch(baseUrl + id, options)
+        .then(res => res.json())
+        .then(Success => console.log("Reset"))
+        .then(console.log)
+        .then(Data => {
+            button.parentElement.firstElementChild.innerText = `${newName}` 
+            characterBar.innerHTML = ""
+            getCharacters()
+        })
+    }
+    
 
-    // function submitHandler() {
-    //     document.addEventListener("submit", e => {
-    //         e.preventDefault()
-    //         console.log(e.target)
-            
-    //         // document.querySelector("#detailed-info > input.add-calories-btn")
-    //         button = e.target
-    //         if(button == "reset-btn")
-    //             console.log("hello")
-    //             debugger
-    //     })
-    // }
 
 
-
-    // submitHandler()
     clickHandler()
 getCharacters()
 /*
