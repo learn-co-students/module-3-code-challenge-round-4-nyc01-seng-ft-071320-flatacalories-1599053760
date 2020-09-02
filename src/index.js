@@ -50,8 +50,7 @@ caloriesForm.addEventListener('submit', e => {
     e.preventDefault()
     const characterId = gid('characterId').value
     const calories = parseInt(gid('calories').innerText)
-    const newCalories = gid('new-calories').value
-    console.log(newCalories)
+    const newCalories = parseInt(gid('new-calories').value)
     const config = {
         method: "PATCH",
         headers: {
