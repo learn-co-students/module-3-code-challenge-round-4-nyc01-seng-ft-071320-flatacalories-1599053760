@@ -1,8 +1,10 @@
 document.addEventListener('DOMContentLoaded', (e) => {
-    baseUrl = "http://localhost:3000/characters"
-
+    baseUrl = "http://localhost:3000/characters/"
+    
+    
     //core variables required for functions
-    divBar = document.querySelector('#character-bar')
+    let divBar = document.querySelector('#character-bar')
+    let divCard = document.getElementById('detailed-info')
     // console.log(divBar)
 
     //create a get request to get all the necessary data
@@ -22,13 +24,14 @@ document.addEventListener('DOMContentLoaded', (e) => {
     function renderCharacter(character) {
         //create a span-tag for each character
         //span-tag includes character's name  
-            //append the element to the divBar created at outermost scope
+           
         
+
         let span = document.createElement('span')
-        // console.log(span)
-        
-        //create the id ---> potential future purposes
+     
         span.dataset.id = character.id
+        console.log(character.id)
+        
 
         span.innerHTML = `
         <h4 class="char-name">${character.name}</h4>
@@ -44,20 +47,23 @@ document.addEventListener('DOMContentLoaded', (e) => {
         document.addEventListener('click', e => {
             // console.log(e.target)
             if (e.target.matches('.char-name')) {
-                let divCard = document.getElementById('detailed-info')
-                debugger
-                // divCard.innerHTML = `
-                // <p id="name">${character.name}</p>
-                // <img id="image" src="assets/dummy.gif"><!-- ${character.image} -->
-                // <h4>Total Calories: <span id="calories">${character.calories}</span> </h4>
-                // <form id="calories-form">
-                //     <input type="hidden" value="Character's id" id="characterId"/> <!-- ${character.id} -->
-                //     <input type="text" placeholder="Enter Calories" id="calories"/>
-                //     <input type="submit" value="Add Calories"/>
-                // </form>
-                // <button id="reset-btn">Reset Calories</button>
-                // `
+                fetch(baseUrl + character.id)
+                .then(resp => resp.json())
+                .then(info => {
+                    divCard.innerHTML = `
+                    <p id="name">${info["name"]}</p>
+                    <img id="image" src="${info["image"]}"><!-- ${info["image"]} -->
+                    <h4>Total Calories: <span id="calories">${info["calories"]}</span> </h4>
+                    <form id="calories-form">
+                        <input type="hidden" value="Character's id" id="characterId"/> <!-- ${character.id} -->
+                        <input type="text" placeholder="Enter Calories" id="calories"/>
+                        <input type="submit" value="Add Calories"/>
+                    </form>
+                    <button id="reset-btn">Reset Calories</button>
+                    `
+                })
             }
+        
         })
     }
 
