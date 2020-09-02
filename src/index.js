@@ -4,6 +4,7 @@ document.addEventListener("DOMContentLoaded", function(e) {
     const charCal = document.querySelector('#calories')
     const detailedInfo = document.querySelector('#detailed-info')
     const calForm = document.querySelector('#calories-form')
+    const reset = document.querySelector('#reset-btn')
 
     function fetchCharacters() {
         fetch(baseUrl)
@@ -73,7 +74,6 @@ document.addEventListener("DOMContentLoaded", function(e) {
             // console.log(updatedCals)
             charCal.innerText = updatedCals
             // console.log(charCal.innerText)
-
             const options = {
                 method: "PATCH", 
                 headers: {
@@ -81,9 +81,7 @@ document.addEventListener("DOMContentLoaded", function(e) {
                     "Accept": "application/json"}, 
                 body: JSON.stringify({calories: updatedCals})
             }
-
             const id = button.previousElementSibling.firstElementChild.dataset.charId
-            // console.dir(button.previousElementSibling.firstElementChild.dataset.charId)
             fetch(baseUrl + id, options)
             // .then(resp => resp.json())
             // .then(console.log)
@@ -91,6 +89,27 @@ document.addEventListener("DOMContentLoaded", function(e) {
 
         })
     }
+
+
+
+    // event listener on reset button (will have to add conditionals to submitHandler- sibling MAYBE NOT)
+    // function that sets html DOM node calories = 0
+    // then does fetch patch request w/ options & id
+    reset.addEventListener('click', function(e){
+        const button = e.target
+        charCal.innerText = 0
+
+        const options = {
+            method: "PATCH", 
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json"}, 
+            body: JSON.stringify({calories: 0})
+        }
+        
+        const id = button.previousElementSibling.previousElementSibling.firstElementChild.dataset.charId
+        fetch(baseUrl + id, options)
+    })
     
     
 
