@@ -46,49 +46,50 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const renderCharacterInfo = (character) => {
         // render show character
-        // find detailed info
-        let characterInfoDiv = document.querySelector('.character-info')
         let detailedInfoDiv = document.getElementById('detailed-info')
-        let characterImage = document.getElementById('image')
-        let characterName = document.getElementById('name')
-        let characterCalories = document.getElementById('calories-form')
         
         detailedInfoDiv.innerHTML = `
         <p id="name">${character.name}</p>
         <img id="image" src=${character.image}>
         <h4>Total Calories: <span id="calories">${character.calories}</span></h4>
         <form id="calories-form">
-            <input type="hidden" value="Character's id" id="${character.id}">
+            <input type="hidden" class="${character.calories}" id="${character.id}">
             <input type="text" placeholder="Enter Calories" id="calories">
-            <input type="submit" value="Add Calories">
+            <input type="submit" value="Add Calories" id="submit-form">
         </form>
         <button id="reset-btn">Reset Calories</button>
         ` 
     }
 
+    const submitHandler = () => {
+        // const submitForm = document.getElementById('submit-form')
+        document.addEventListener("submit", (e) => {
+            if (event.target.matches("#submit-form"))
+                // const submitForm = e.target.getAttribute("class")
+                let characterCalories = parseInt(e.target.getAttribute("class"))
+                console.log(characterCalories)
+                e.preventDefault()
+            
+                const form = e.target
+                const calories = form.calories.value
+                const characterId = form.dataset.id
+
+                const options = {
+                    method: "PATCH",
+                    headers: {
+                    "Content-Type": "application/json",
+                    "Accept": "application/json"
+                    },
+                    body: JSON.stringify({ calories: calories })
+                }
+        
+            fetch(baseUrl + characterId, options)
+            .then((response) => response.json())
+            .then(renderCharacterInfo)
+        })
+    }
+
     getCharacters()
     clickHandler()
-
+    submitHandler()
 })
-
-
-
-
-
-
-
-
-/*
-## Core Deliverables
-
-As a user, I can:
-
-1. See all characters names in a `div` with the id of `"character-bar"`. 
-On page load, **request** data from the server to get all of the characters objects. 
-When you have this information, you'll need to add a `span` tag with the character's name to the character bar.
-
-2. Select a character from the character bar and see character's info inside `#detailed-info` div. 
-
-3. Clicks on "Add Calories" button to add calories to a Character. 
-Persist calories value to the server and update the DOM.
-*/
