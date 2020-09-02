@@ -9,12 +9,16 @@
         </div>
         
         <div id = "character-bar">
+            <button id="add-btn">Add Character</button>
             <!-- show characters names here -->
         </div>
         
         <div class = "characterInfo">
             <div id="detailed-info">
-                <p id="name">Character's Name</p>
+                <form id="name-form">
+                    <input type="text" placeholder="Enter a name" id="name"/>
+                    <button id="edit-name">Edit name</button>
+                </form>
                 <img id="image" src="assets/dummy.gif"><!-- display character image here -->
                 <h4>Total Calories: <span id="calories">Character's Calories</span> </h4>
                 <form id="calories-form">
