@@ -4,6 +4,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const qs = selector => document.querySelector(selector)
   const charBar = qs('#character-bar')
   const infoDiv = qs('#detailed-info')
+  const calorieForm = qs('#calories-form')
   
   const getChars = () => {
     fetch(BASE_URL)
@@ -45,12 +46,25 @@ document.addEventListener('DOMContentLoaded', () => {
     infoDiv.dataset.charId = char.id
     qs('#name').textContent = char.name
     qs('#image').src = char.image
-
+    qs('#calories').textContent = char.calories
   }
 
+  const submitHandler = () => {
+    document.addEventListener('submit', e => {
+      e.preventDefault()
+      switch (true) {
+        case e.target === calorieForm:
+          console.log('hi')
+          break
+        default:
+          break
+      }
+    })
+  }
 
 
 
   getChars()
   clickHandler()
+  submitHandler()
 })
