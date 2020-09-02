@@ -3,7 +3,7 @@ document,addEventListener('DOMCOontentLoaded', () => {
 
     //fetch characters from server
     const getCharacters = () => {
-        fetch(BASEURL)
+        fetch('http://localhost:3000/characrters/')
         .then(resp => resp.jason())
         .then(renderCharacters)
     }
@@ -19,31 +19,54 @@ document,addEventListener('DOMCOontentLoaded', () => {
     const renderNames = (nameObj) => {
     const characterDiv = document.querySelector("#character-bar")
     const characterNames = document.createElement('div')
-    //you say to use span but the names also have to be a button that runs a post request
+    //you say to use span but the names also have to be a button shows character detail
     characterNames.innerHTML = `
     <span>${nameObj.name}</span> 
     `
     }
+
 renderNames()
 
 
 
-    //single render instructions
-    // const renderCharacter = (characterObj) => {
-    //     const characterDiv = document.querySelector('#detailed-info')
-    //     const characterSpan = document.createElement('div')
-    //     characterSpan.className = 'characterInfo'
-    //     characterSpan.innerHTML =`
-    //         <p id="name">${characterObj.name}</p>
-    //         <img id="image" src="${characterObj.image}"><!-- display character image here -->
-    //         <h4>Total Calories: <span id="calories">${characterObj.calories}</span> </h4>
-    //     `
-    //     characterDiv.append(characterSpan)
-    // }
-    // getCharacters()
+    //detailed info render instructions
+    const renderCharacter = (characterObj) => {
+        const characterDiv = document.querySelector('#detailed-info')
+        const characterSpan = document.createElement('div')
+        characterSpan.className = 'characterInfo'
+        characterSpan.innerHTML =`
+            <p id="name">${characterObj.name}</p>
+            <img id="image" src="${characterObj.image}"><!-- display character image here -->
+            <h4>Total Calories: <span id="calories">${characterObj.calories}</span> </h4>
+        `
+        characterDiv.append(characterSpan)
+    }
+    getCharacters()
 
 
-   
+    //form that adds calories
+    function form (){
+        const form = document.querySelector('form')
+        form.addEventListener("submit", (e) => {
+            e.preventDefault()
+            const calorie = {
+                calories: form.calories.value
+            }
+        
+        fetch('http://localhost:3000/characrters/', {
+            method: "PATCH",
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            },
+            body: JSON.stringify(
+                calorie
+            )
+        })
+
+    })}
+
+   form()
 
 
 
