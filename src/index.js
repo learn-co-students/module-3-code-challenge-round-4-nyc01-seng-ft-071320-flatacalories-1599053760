@@ -32,6 +32,9 @@ document.addEventListener("DOMContentLoaded", (e) => {
                 // let selectedName = button.innerText
                 let selectedId = parseInt(button.id)
                 lookupCharacter(selectedId)
+            } else if(button.matches(".add-calories-btn")){
+                let enteredNum = parseInt(button.previousElementSibling.value)
+                patchCalories(enteredNum)
             }
         })
     }
@@ -49,11 +52,39 @@ document.addEventListener("DOMContentLoaded", (e) => {
         <img src="${characterObj.image}">
         <h2>Total Calories: ${characterObj.calories}</h2>
         <input type="text" placeholder="Enter Calories">
-        <button type="submit" value="Add Calories" class="add-calories-btn"></button>
+        <input type="submit" value="Add Calories" class="add-calories-btn" data-id=${characterObj.id}>
         <br><br>
         <button id="reset-btn">Reset Calories</button>
         `
     }
+
+    function patchCalories(enteredCalories) {
+        let currentCalories = button.previousElementSibling.previousElementSibling.innerText
+        let calorieStr = currentCalories.replace("Total Calories: ", "" )
+        let calorieNum = parseInt(calorieStr)
+        let total = calorieNum + enteredCalories
+        let id = button.dataset.id
+        // debugger
+        const options = {
+            "method": "PATCH",
+            "headers": {
+                "Content-Type": "application/json",
+                "accept": "application/json"
+            },
+        body: JSON.stringify({ calories: total })
+        }
+        fetch(baseUrl + id, options)
+        .then(res => res.json())
+        .then(Success => console.log("Yay"))
+        .then(console.log)
+        .then(Data => {
+            button.previousElementSibling.previousElementSibling.innerText = `Total Calories: ${total}` 
+        })
+
+        
+    }
+
+
 
     function submitHandler() {
         document.addEventListener("submit", e => {
