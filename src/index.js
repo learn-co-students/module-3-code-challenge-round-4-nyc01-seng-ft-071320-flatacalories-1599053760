@@ -20,13 +20,16 @@ document.addEventListener('DOMContentLoaded', function() {
     const characterBar = document.querySelector('div#character-bar')
     const detailedInfo = document.querySelector('div#detailed-info')
 
+    //Variable to hold the characters
+    let characters = []
+
     //gets characters
     function getCharacters() {
         fetch('http://localhost:3000/characters')
         .then(response => response.json())
         .then(allCharacters => {
             renderCharacters(allCharacters)
-            window.characters = allCharacters
+            characters = allCharacters
         })
     }
 
