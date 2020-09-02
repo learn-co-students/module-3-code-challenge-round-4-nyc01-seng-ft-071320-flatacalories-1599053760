@@ -49,16 +49,15 @@ characterBar.addEventListener('click', e => {
 
 function changeCalories(target) {
     const characterId = gid('characterId').value
-    if (target == caloriesForm) {
-        console.log('hey')
-        // const oldCalories = parseInt(gid('calories').innerText) 
-        // const newCalories = parseInt(gid('new-calories').value)
-        // const calories = oldCalories + newCalories
-    } else if (target == resetBtn) {
-        console.log('howdy')
-        // const calories = 0
+    let totalCalories
+    if (target === caloriesForm) {
+        const oldCalories = parseInt(gid('calories').innerText)
+        const newCalories = parseInt(gid('new-calories').value)
+        totalCalories = oldCalories + newCalories
+    } else if (target === resetBtn) {
+        totalCalories = 0
     }
-    console.log(calories)
+    console.log(totalCalories)
     const config = {
         method: "PATCH",
         headers: {
@@ -66,7 +65,7 @@ function changeCalories(target) {
             "accepts": "application/json"
         },
         body: JSON.stringify({
-            calories: calories
+            calories: totalCalories
         })
     } 
 
@@ -82,21 +81,7 @@ caloriesForm.addEventListener('submit', e => {
 })
 
 resetBtn.addEventListener('click', e => {
-    const characterId = gid('characterId').value
-    console.log(characterId)
-    const config = {
-        method: "PATCH",
-        headers: {
-            "content-type": "application/json",
-            "accepts": "application/json"
-        },
-        body: JSON.stringify({
-            calories: 0
-        })
-    }
-    fetch(baseURL + characterId, config)
-    .then(resp => resp.json())
-    .then(character => displayCharacterInfo(character))
+    changeCalories(e.target)
 })
 
 getCharacters()
