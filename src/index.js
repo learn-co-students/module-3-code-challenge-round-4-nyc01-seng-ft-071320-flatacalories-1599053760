@@ -37,9 +37,10 @@ document.addEventListener("DOMContentLoaded", e => {
                     infoContainer.children[2].children[0].innerText = calories
                     infoContainer.children[3].dataset.charId = id
                     infoContainer.children[4].dataset.charId = id
+                    infoContainer.children[5].dataset.charId = id
                 }
             }
-            if (e.target.matches('#reset-btn')) {
+            else if (e.target.matches('#reset-btn')) {
                 const button = e.target 
                 const infoContainer = document.getElementById('detailed-info')
                 const charId = parseInt(button.dataset.charId)
@@ -63,7 +64,7 @@ document.addEventListener("DOMContentLoaded", e => {
                     infoContainer.children[2].children[0].innerText = data.calories
                 })
             }
-            if (e.target.matches('#new-bttn')) {
+            else if (e.target.matches('#new-bttn')) {
                 if (e.target.innerText === "New Character!") {
                     addNewForm()
                     e.target.innerText = "Hide"
@@ -73,7 +74,29 @@ document.addEventListener("DOMContentLoaded", e => {
                     e.target.innerText = "New Character!"
                 }
             }
+            else if (e.target.matches('#edit-name-bttn')) {
+                if (e.target.innerText === "Edit Name") {
+                    addNameForm()
+                    e.target.innerText = "Hide"
+                } else if (e.target.innerText === "Hide") {
+                    const nameForm = document.getElementById('edit-name-form')
+                    nameForm.remove()
+                    e.target.innerText = "Edit Name"
+                }
+            }
         })
+    }
+
+    const addNameForm = () => {
+        const button = document.getElementById('edit-name-bttn') 
+
+
+        button.insertAdjacentHTML('afterend', `
+        <form id="edit-name-form">
+            <input type="text" placeholder="Name" id="edit-name"/>
+            <input type="submit" value="Submit Name Change"/>
+        </form>
+        `)
     }
 
     const addNewForm = () => {
@@ -149,6 +172,32 @@ document.addEventListener("DOMContentLoaded", e => {
                 .then(data => {
                     charBar.innerHTML = '<button id="new-bttn">New Character!</button>'
                     fetchChars()
+                })
+            }
+            else if (e.target.matches('#edit-name-form')) {
+                const form = e.target 
+                const name = form.children[0].value
+                const button = document.getElementById('edit-name-bttn')
+                const charId = parseInt(button.dataset.charId)                 
+                options = {
+                    method: 'PATCH',
+                    headers: {
+                        'content-type':'application/json',
+                        'accept':'application/json'
+                    },
+                    body: JSON.stringify({
+                        name: name
+                    })
+                }
+
+                fetch(baseUrl + charId, options)
+                .then(res => res.json())
+                .then(data => {
+                    const infoContainer = document.getElementById('detailed-info')
+                    infoContainer.children[0].innerHTML = ""
+                    charBar.innerHTML = '<button id="new-bttn">New Character!</button>'
+                    fetchChars()
+                    infoContainer.children[0].innerHTML = data.name
                 })
             }
         })
