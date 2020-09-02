@@ -53,8 +53,8 @@ document.addEventListener("DOMContentLoaded", () => {
         <img id="image" src=${character.image}>
         <h4>Total Calories: <span id="calories">${character.calories}</span></h4>
         <form id="calories-form">
-            <input type="hidden" class="${character.calories}" id="${character.id}">
-            <input type="text" placeholder="Enter Calories" id="calories">
+            <input type="hidden" calories="${character.calories}" id="${character.id}">
+            <input type="text" placeholder="Enter Calories" id="${character.calories}">
             <input type="submit" value="Add Calories" id="submit-form">
         </form>
         <button id="reset-btn">Reset Calories</button>
@@ -62,13 +62,11 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     const submitHandler = () => {
-        // const submitForm = document.getElementById('submit-form')
         document.addEventListener("submit", (e) => {
-            if (event.target.matches("#submit-form"))
+            e.preventDefault()
+            if (e.target.matches("#submit-form")) {
                 // const submitForm = e.target.getAttribute("class")
-                let characterCalories = parseInt(e.target.getAttribute("class"))
-                console.log(characterCalories)
-                e.preventDefault()
+                // let characterCalories = parseInt(e.target.getAttribute("calories"))
             
                 const form = e.target
                 const calories = form.calories.value
@@ -82,10 +80,10 @@ document.addEventListener("DOMContentLoaded", () => {
                     },
                     body: JSON.stringify({ calories: calories })
                 }
-        
-            fetch(baseUrl + characterId, options)
-            .then((response) => response.json())
-            .then(renderCharacterInfo)
+                fetch(baseUrl + characterId, options)
+                .then((response) => response.json())
+                .then(renderCharacterInfo)
+            }
         })
     }
 
