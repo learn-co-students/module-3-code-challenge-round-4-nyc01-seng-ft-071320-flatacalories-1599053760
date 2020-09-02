@@ -31,7 +31,7 @@ function renderCharacters(charArray){
 }
 
 function renderCharacter(charObj){
-  charBar.insertAdjacentHTML('beforeend', `<span data-id="${charObj.id}">${charObj.name}</span>`)
+  charBar.insertAdjacentHTML('beforeend', `<span class="nav-bar" data-id="${charObj.id}">${charObj.name}</span>`)
 }
 
 charBar.addEventListener('click', e => {
@@ -50,15 +50,17 @@ function renderCharacterShow(charObj){
   charShow.innerHTML = ""
   charShow.insertAdjacentHTML('afterbegin', `
       <p id="name">${charObj.name}</p>
+      <button data-id="${charObj.id}" id="change-name">Change Character Name</button><br><br>
       <img id="image" src="${charObj.image}">
       <h4>Total Calories: <span data-id="${charObj.id}" id="calories">${charObj.calories}</span> </h4>
       <form data-id="${charObj.id}" id="calories-form">
           <input name="charId" type="hidden" value="${charObj.id}" id="characterId"/>
-          <input name="calories" type="text" placeholder="Enter Calories" id="calories"/>
+          <input name="calories" type="number" placeholder="Enter Calories" id="calories"/>
           <input type="submit" value="Add Calories"/>
       </form>
       <button id="reset-btn">Reset Calories</button>
   `)
+  addClickHandler()
 }
 
 charShow.addEventListener('submit', e => {
@@ -67,12 +69,13 @@ charShow.addEventListener('submit', e => {
     const currentCals = document.querySelector('span#calories').innerText
     const newCals = e.target.calories.value
     updateLikes(currentCals, newCals, e.target.charId.value)
+    e.target.reset() 
   }
 })
 
 function updateLikes(currentCals, newCals, charId){
+  if (newCals === ""){newCals=0}
   let calNum = parseInt(currentCals, 10) + parseInt(newCals, 10)
-
   const options = {
     method: 'PATCH',
     headers: {'Content-Type': 'application/json', 'Accept': 'application/json'},
@@ -84,8 +87,72 @@ function updateLikes(currentCals, newCals, charId){
   .then(renderCharacterShow)
 }
 
+//EXTRA DELIVERABLES HERE//
 
+function addClickHandler(){
+  const resetButton = document.getElementById('reset-btn')
+  const nameButton = document.getElementById('change-name')
+  
+  resetButton.addEventListener('click', e => {
+    const charId = e.target.previousElementSibling.dataset.id
+    resetCalories(charId)
+  })
 
+  nameButton.addEventListener('click', e => {
+    const charName = e.target.previousElementSibling.innerText
+    showNameForm(e.target.dataset.id, charName)
+    nameButton.style.display = "none"
+  })
+}
+
+function resetCalories(charId){
+  const options = {
+    method: 'PATCH', 
+    headers: {'Content-Type': 'application/json', 'Accept': 'application/json'},
+    body: JSON.stringify({calories: 0})
+  }
+  fetch(baseURL+charId, options)
+  .then(resp=>resp.json())
+  .then(renderCharacterShow)
+}
+
+function showNameForm(charId, charName){
+  charShow.insertAdjacentHTML('afterbegin', `
+    <form id="new-name-form">
+      <input name="name" type="text" placeholder="${charName}">
+      <input type="submit" value="Change Name">
+    </form>
+  `)
+  form = document.querySelector('form#new-name-form')
+  form.dataset.id = charId
+  addListenerForForm(form)
+}
+
+function addListenerForForm(form){
+  form.addEventListener('submit', e=>{
+    e.preventDefault()
+    changeName(form.name.value, form.dataset.id)
+    form.remove()
+  })
+}
+
+function changeName(newName, charId){
+  const options = {
+    method: 'PATCH',
+    headers: {'Content-Type': 'application/json', 'Accept': 'application/json'},
+    body: JSON.stringify({name: newName})
+  }
+
+  fetch(baseURL+charId, options)
+  .then(resp=>resp.json())
+  .then(results=>{
+    renderCharacterShow(results)
+
+    const foundSpan = document.querySelector(`span.nav-bar[data-id="${results.id}"]`)
+    foundSpan.innerText = `${results.name}`
+  })
+
+}
 
 
 getCharacters()
