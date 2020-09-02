@@ -76,7 +76,32 @@ function clickHandler() {
          //    .then(response => response.json())
          //    .then(console.log)
       }
+
    })
+
+   // charDetails.addEventListener('click', e => {
+   //    if (e.target.textContent === 'Reset Calories') {
+   //       const button = e.target.previousElementSibling.previousElementSibling
+   //       const span = button.childNodes[1]
+   //       let calories = parseInt(span.textContent)
+   //       // const reset = 0
+   //       let updatedCalories = 0
+   //       calories.textContent = updatedCalories
+   //       const id = span.parentNode.nextElementSibling.childNodes[1].value
+
+   //       console.log(calories)
+
+   //       fetch(baseUrl + id, {
+   //       method: 'PATCH',
+   //          headers: {
+   //             "content-type": "application/json",
+   //             "accept": "application/json"
+   //          },
+   //          body: JSON.stringify({calories: calories.textContent})
+   //       }).then(response => response.json())
+   //          .then(data => renderCharacterFull(data))
+   //    }
+   // })
 }
 
 function submitHandler() {
