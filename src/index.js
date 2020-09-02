@@ -6,12 +6,18 @@ document.addEventListener("DOMContentLoaded", e => {
     const name = document.querySelector("#name")
     const image = document.querySelector("#image")
     const infoPage = document.querySelector("#detailed-info")
+    const charInfo = document.querySelector("#characterInfo")
     const caloriesSpan = document.querySelector("#calories")
     const form = document.querySelector("#calories-form")
     const formInput = document.querySelector("[type=text]")
     
     //functions
+    function clearPage() {
+      infoPage.style.display="none"
+    }
+
     function getChar(){
+        
         fetch(baseUrl)
         .then(resp => resp.json())
         .then(characters => characters.forEach(character => renderCharacter(character)))
@@ -31,6 +37,8 @@ document.addEventListener("DOMContentLoaded", e => {
     //event listeners
     document.addEventListener("click", e => {
         if(e.target.className === ("icon")){
+            infoPage.style.display="block"
+
             form.dataset.id = e.target.dataset.id
             name.textContent = e.target.dataset.name 
             image.src = e.target.dataset.image
@@ -66,6 +74,7 @@ document.addEventListener("DOMContentLoaded", e => {
     })
 
 //invoke functions
+clearPage()
 getChar()
 })
 
