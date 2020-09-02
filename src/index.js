@@ -4,7 +4,15 @@ document.addEventListener('DOMContentLoaded', () => {
   const qs = selector => document.querySelector(selector)
   const charBar = qs('#character-bar')
   const calorieForm = qs('#calories-form')
-  const infoDiv = qs('#detailed-info')
+  const detailDiv = qs('#detailed-info')
+  const infoDiv = qs('.characterInfo')
+  const editForm = ce('form')
+  infoDiv.append(editForm)
+  editForm.id = 'edit-character'
+  editForm.innerHTML = `
+    <input type="text" placeholder="Enter Name" id="character-name"/>
+    <input type="submit" value="Edit Character"/>
+  `
   
   const getChars = () => {
     fetch(BASE_URL)
@@ -46,7 +54,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   const showChar = char => {
-    infoDiv.dataset.charId = char.id
+    detailDiv.dataset.charId = char.id
     qs('#characterId').value = char.id
     qs('#name').textContent = char.name
     qs('#image').src = char.image
@@ -62,6 +70,8 @@ document.addEventListener('DOMContentLoaded', () => {
             addCalorie(e.target)
           }
           break
+        case e.target === editForm:
+          editChar(e.target)
         default:
           break
       }
@@ -108,6 +118,27 @@ document.addEventListener('DOMContentLoaded', () => {
     .then(res => res.json())
     .then(char => {
       qs('#calories').textContent = char.calories
+    })
+  }
+
+  const editChar = target => {
+    const charId = target.previousElementSibling.dataset.charId
+    const options = {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      }, 
+      body: JSON.stringify({
+        name: target[0].value
+      })
+    }
+
+    fetch(`${BASE_URL}${charId}`, options)
+    .then(res => res.json())
+    .then(char => {
+      qs('#name').textContent = char.name
+      target.reset()
     })
   }
 
