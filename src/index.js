@@ -2,12 +2,27 @@ document.addEventListener("DOMContentLoaded", () => {
   const baseUrl = "http://localhost:3000/characters"
   const divBar = document.querySelector('#character-bar')
 
+
   const clickHandler = () => {
-    document.addEventListener('click', e => )
+    document.addEventListener('click', e => {
+      
+      if(e.target.className === 'spanE'){
+
+        fetch(baseUrl)
+        .then(response => response.json())
+        .then(characters => {
+          characters.forEach(character => renderDom(character))
+        })
+
+        const renderDom = (c) => {
+          const domImage = document.querySelector("#image")
+          const cName = c.name
+
+        }
+
+      }
+    })
   }
-
-
-
 
 
 
@@ -19,6 +34,11 @@ document.addEventListener("DOMContentLoaded", () => {
   const renderCharacter = character => {
 
     const span = document.createElement('span')
+    span.classList.add('spanE')
+
+
+
+
 
     span.innerText = character.name
     divBar.append(span)
