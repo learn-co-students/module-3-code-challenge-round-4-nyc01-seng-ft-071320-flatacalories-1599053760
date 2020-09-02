@@ -62,7 +62,10 @@ document.addEventListener("DOMContentLoaded", e => {
                     infoContainer.children[2].children[0].innerText = ''
                     infoContainer.children[2].children[0].innerText = data.calories
                 })
-            }   
+            }
+            if (e.target.matches('#new-bttn')) {
+                console.log(e.target)
+            }
         })
     }
 
