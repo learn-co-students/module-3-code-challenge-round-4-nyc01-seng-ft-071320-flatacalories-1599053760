@@ -50,7 +50,6 @@ function displayInfo(character){
 
 form.addEventListener('submit', function(e){
     e.preventDefault();
-    //console.log(form.children[0].id)
     let charId = e.target.previousElementSibling.dataset.id
     let currentCal = e.target.previousElementSibling.children[0].innerText
     e.target.children[0].id =  charId
@@ -88,5 +87,22 @@ function updateCal(newCal, charId){
 
 resetCal.addEventListener('click', function(e){
     let charId = e.target.previousElementSibling[0].id
+    resetCal.dataset.id = charId
     updateCal(0, charId)
 })
+
+
+    const btn = document.createElement('button')
+    btn.id = 'edit-btn'
+    btn.innerText = 'Edit Character Name'
+    details.append(btn)
+
+
+const edit = document.querySelector('#edit-btn')
+edit.addEventListener('click', function(e){
+    const input = document.createElement('input')
+    input.placeholder = 'Enter New Name'
+    details.append(input)
+})
+    
+
