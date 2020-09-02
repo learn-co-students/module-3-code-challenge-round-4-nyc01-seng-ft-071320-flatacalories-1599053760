@@ -64,9 +64,29 @@ document.addEventListener("DOMContentLoaded", e => {
                 })
             }
             if (e.target.matches('#new-bttn')) {
-                console.log(e.target)
+                if (e.target.innerText === "New Character!") {
+                    addNewForm()
+                    e.target.innerText = "Hide"
+                } else if (e.target.innerText === "Hide") {
+                    const form = document.getElementById('new-form')
+                    form.remove()
+                    e.target.innerText = "New Character!"
+                }
             }
         })
+    }
+
+    const addNewForm = () => {
+        const button = document.getElementById('new-bttn')
+
+        button.insertAdjacentHTML('afterend', `
+        <form id="new-form">
+            <input type="text" placeholder="Name" id="new-name"/>
+            <input type="text" placeholder="Img Url" id="new-image"/>
+            <input type="text" placeholder="Enter Calories" id="new-calories"/>
+            <input type="submit" value="Add Character"/>
+        </form>
+        `)
     }
 
     const submitHandler = () => {
@@ -103,6 +123,33 @@ document.addEventListener("DOMContentLoaded", e => {
                     form.reset()
                 })
 
+            }
+            else if (e.target.matches('#new-form')) {
+                const newForm = e.target 
+                
+                const name = newForm.children[0].value 
+                const url = newForm.children[1].value 
+                const cals = newForm.children[2].value 
+
+                options = {
+                    method: 'POST',
+                    headers: {
+                        'content-type':'application/json',
+                        'accept':'application/json'
+                    },
+                    body: JSON.stringify({
+                        name: name, 
+                        image: url,
+                        calories: cals
+                    })
+                }
+
+                fetch(baseUrl, options)
+                .then(res => res.json())
+                .then(data => {
+                    charBar.innerHTML = '<button id="new-bttn">New Character!</button>'
+                    fetchChars()
+                })
             }
         })
     }
