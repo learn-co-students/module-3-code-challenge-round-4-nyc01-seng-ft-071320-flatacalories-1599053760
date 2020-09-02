@@ -1,11 +1,12 @@
 document.addEventListener('DOMContentLoaded', () => {
     function addBtn(){
-   const button = document.createElement("button")
+   const button = document.createElement("btn")
+   button.id = "add-char"
    button.innerHTML = `
    <button>Add Character</button>
    `
-   container = document.querySelector("#name")
-   container.prepend(button)
+   container = document.getElementsByClassName("characterInfo")
+   container[0].prepend(button)
     }
     
 const baseUrl = "http://localhost:3000/characters/"
@@ -56,6 +57,24 @@ function clickHandler(){
             getCharData(e.target.dataset.id)
         }
 
+        if (e.target.textContent === "Add Character"){
+            console.log("hello")
+            if(document.querySelector("#new-char-form")){
+                oldForm = document.querySelector("#new-char-form")
+                oldForm.remove()
+            }else{
+            form = document.createElement("form")
+            container = document.querySelector("#add-char")
+            form.id = "new-char-form"
+            form.innerHTML = `
+            <input type="text" placeholder="Name" id="addName">
+            <input type="text" placeholder="Starting Calories" id="addCal">
+            <input type="submit" value="Submit Character">
+            `
+            container.prepend(form)
+            }
+        }
+
         if (e.target.matches("#reset-btn")){
             id = document.querySelector("#calories-form").dataset.charId
 
@@ -98,6 +117,27 @@ function clickHandler(){
             e.target.reset()
             data = {calories: currentCal}
         }
+
+        if (e.target.matches("#new-char-form"))
+        // name = e.target.addName.value
+        // calories = e.target.addCal.value
+        // data = {
+        //     name: name,
+        //     calories: calories
+        // }
+        // options = {
+        //     method: "POST",
+        //     headers: {
+        //         "content-type": "application/json",
+        //         "accept": "application/json"
+        //     },
+        //     body: JSON.stringify(data)
+        // }
+        // fetch(baseUrl, options)
+
+
+
+        fetch(Ur)
 
         if (e.target.matches("#name-form")){
             id = document.querySelector("#calories-form").dataset.charId

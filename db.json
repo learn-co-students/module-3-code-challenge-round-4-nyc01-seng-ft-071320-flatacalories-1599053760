@@ -35,6 +35,11 @@
       "name": "Mrs. Monkey",
       "image": "https://cdn.dribbble.com/users/1832502/screenshots/4387756/monkeyanim.gif",
       "calories": 0
+    },
+    {
+      "name": "mike",
+      "calories": "14",
+      "id": 7
     }
   ]
 }
