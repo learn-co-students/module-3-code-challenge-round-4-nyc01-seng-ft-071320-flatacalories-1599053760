@@ -37,10 +37,31 @@ document.addEventListener('DOMContentLoaded', () => {
                 
                 // Grabbing the display div//
             const infoDiv = document.getElementById('detailed-info')
-                    console.dir(infoDiv)
                 
+                const name = infoDiv.name.value
+                const image = infoDiv.image.value
+                const calories = infoDiv.calories.value
 
+                const id = infoDiv.characterId.value
 
+                const options = {
+                    method: "PATCH",
+                    headers: {
+                        "content-type: "application/json",
+                        "accept": "application/json"
+                    },
+                    body: JSON.stringify({ name: name, image: image, calories: calories})
+                }
+            
+                fetch(baseURL + id, options)
+                .then(resp => resp.json())
+                .then(character =>)
+                })
+            
+            
+            
+            
+            
             }
         })
 
