@@ -10,7 +10,7 @@ document.addEventListener("DOMContentLoaded", e => {
     const caloriesSpan = document.querySelector("#calories")
     const form = document.querySelector("#calories-form")
     const formInput = document.querySelector("[type=text]")
-    
+    const resetBtn = document.querySelector("#reset-btn")
     //functions
     function clearPage() {
       infoPage.style.display="none"
@@ -44,14 +44,19 @@ document.addEventListener("DOMContentLoaded", e => {
             image.src = e.target.dataset.image
             caloriesSpan.innerText = e.target.dataset.calories
         }
+        else if(e.target === resetBtn){
+            // debugger
+        }
     })
 
     document.addEventListener("submit", e => {
         e.preventDefault()
-        calNum = parseInt(caloriesSpan.innerText)
-        addCal = parseInt(formInput.value)
-        caloriesSpan.innerText = addCal + calNum
+        // addCal = formInput.value
         // debugger
+        // if(typeof addCal == "number"){
+        calNum = parseInt(caloriesSpan.innerText)
+        addCalnum = parseInt(formInput.value)
+        caloriesSpan.innerText = addCalnum + calNum
         charId = form.dataset.id
 
         const configObj = {
@@ -69,8 +74,10 @@ document.addEventListener("DOMContentLoaded", e => {
                 bar.innerHTML = ""
                 getChar()
             })
+        // } 
+        // else
+        // (alert("Please enter a valid number of calories"))
         
-
     })
 
 //invoke functions
@@ -88,7 +95,7 @@ CORE DELIVERABLES
 
 2) √When character is clicked, see info in #detailed-info div
     - √click listener
-3) Click on "Add Calories", update front end and back end
+3) √Click on "Add Calories", update front end and back end
     -√submit listener for form
     -√ persists to database without refresh
 

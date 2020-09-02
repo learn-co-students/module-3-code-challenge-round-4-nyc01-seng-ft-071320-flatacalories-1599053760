@@ -4,19 +4,19 @@
       "id": 1,
       "name": "Mr. Cute",
       "image": "https://thumbs.gfycat.com/EquatorialIckyCat-max-1mb.gif",
-      "calories": "200"
+      "calories": "101"
     },
     {
       "id": 2,
       "name": "Mr. Monkey",
       "image": "https://thumbs.gfycat.com/FatalInnocentAmericanshorthair-max-1mb.gif",
-      "calories": "200"
+      "calories": "301"
     },
     {
       "id": 3,
       "name": "Miss. Zebra",
       "image": "https://media2.giphy.com/media/20G9uNqE3K4dRjCppA/source.gif",
-      "calories": "200"
+      "calories": "0"
     },
     {
       "id": 4,
@@ -28,7 +28,7 @@
       "id": 5,
       "name": "Mr. Panda",
       "image": "https://media.giphy.com/media/ALalVMOVR8Qw/giphy.gif",
-      "calories": "200"
+      "calories": "100"
     },
     {
       "id": 6,
