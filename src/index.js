@@ -22,10 +22,6 @@ document.addEventListener("DOMContentLoaded", function() {
         charBar.insertAdjacentHTML('beforeend', `
         <span data-id="${char.id}">${char.name}</span>
         `)
-        // calories:
-        // id:
-        // image: 
-        // name:
     }
 
     function getInfo(char) {
@@ -38,6 +34,7 @@ document.addEventListener("DOMContentLoaded", function() {
         charImg.src = char.image
         charCalories.innerText = char.calories
 
+        charForm.characterId.id = char.id
         charForm.lastElementChild.dataset.id = char.id
     }
 
@@ -60,6 +57,7 @@ document.addEventListener("DOMContentLoaded", function() {
             e.preventDefault()
 
             let click = e.target
+            
             if (click.lastElementChild.value === "Add Calories") {
                 let id = click.lastElementChild.dataset.id
                 let formInput = charForm.calories.value 
@@ -80,11 +78,7 @@ document.addEventListener("DOMContentLoaded", function() {
                     body: JSON.stringify({
                         calories: parseInt(oldNum) + parseInt(formInput)
                     })
-                })
-                .then(resp => resp.json())
-                .then(data => {
-
-                })                
+                })            
             }
 
             charForm.reset()
