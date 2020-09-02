@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
     const baseUrl = "http://localhost:3000/characters/"
     const charDiv = document.getElementById('character-bar');
-    // const fullChar = document.getElementById('detailed-info');
+    // const fullChar = document.getElementById('detailed-info');  
     const charP = document.getElementById('name');
     const charImg = document.getElementById('image');
     const charSpan = document.getElementById('calories');
@@ -109,3 +109,18 @@ document.addEventListener('DOMContentLoaded', () => {
     submitYandler();
     resetYandler();
 });
+
+/* 
+my strat was to first get all characters then upon a "click" of one of them i made another fetch with taking the id from the "span"
+that was holding the character to render the full info of the character.
+
+then i originally tried changing the inner html with the var from line 4 but it messed with 
+the form and i asked for a little guidence Alex gave me just enough  without giving me the answer 
+for me to realize that i should just target each individual area and i changed up my strat.
+
+upon completion i then targeted the form under the full details and i took the value of the form and set it equal to 
+the calories of the character with the id that i brought down with me from the span and opened a "PATCH" request with the id.
+
+Thank you Alex, Ian, and Steven for all the instruction and guidence through the crazy world of JS 
+i could not have done it without any of you!
+*/
