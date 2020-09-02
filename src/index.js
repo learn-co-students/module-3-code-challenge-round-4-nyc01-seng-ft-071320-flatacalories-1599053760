@@ -75,7 +75,7 @@ document.addEventListener('DOMContentLoaded', function() {
         detailedInfo.insertAdjacentHTML('beforeend', `
         <p id="name">${character.name}</p>
         <img id="image" src="${character.image}">
-        <h4>
+        <h4 id="${character.id}">
             "Total Calories: "
             <span id="calories">${character.calories}</span>
         </h4>
@@ -90,6 +90,7 @@ document.addEventListener('DOMContentLoaded', function() {
     function submitHandler(character) {
         document.addEventListener('submit', function (e) {
             if(e.target.matches('form#calories-form')) {
+                let form = e.target.value
                 e.preventDefault();
                 let calories = parseInt(e.target[1].value, 10) + character.calories
                 console.log(calories)
@@ -107,12 +108,15 @@ document.addEventListener('DOMContentLoaded', function() {
                         'calories': calories 
                     })
                 }
-
                 fetch(`http://localhost:3000/characters/${character.id}`, options)
                 .then(response => response.json())
                 .then(updatedChar => {
+                    characterBar.innerHTML = ''
+                    getCharacters()
+                    detailedInfo.innerHTML = ''
                     renderCharacterInfo(updatedChar)
                 })
+
 
             }
                 
