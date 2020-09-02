@@ -1,5 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
   const detailedInfoContainer = document.querySelector('#detailed-info')
+  const caloriesForm = document.querySelector('#calories-form')
 
   const baseURL = 'http://localhost:3000/characters/'
 
@@ -24,6 +25,10 @@ document.addEventListener('DOMContentLoaded', () => {
       if (click.matches('.character-bar')) {
         const charId = click.dataset.charId
         loadCharacter(charId)
+      } else if (click.matches('#reset-btn')) {
+        const charId = caloriesForm.firstElementChild.id
+        debugger
+        resetCounter(charId)
       }
     })
   }
@@ -42,32 +47,56 @@ document.addEventListener('DOMContentLoaded', () => {
     
     <h4>Total Calories: <span id="calories">${character.calories}</span> </h4>
     <form id="calories-form">
-        <input type="hidden" value="Character's id" id="${character.id}"/> <!-- Assign character id as a value here -->
+        <input type="hidden" value="Character's id" id=${character.id} data-char-id=/> <!-- Assign character id as a value here -->
         <input type="text" placeholder="Enter Calories" id="calories"/>
         <input type="submit" value="Add Calories"/>
     </form>
+    <button data-char-id=${character.id} id="reset-btn">Reset Calories</button>
     `)
   }
 
   function submitHandler() {
     document.addEventListener('submit', e => {
       e.preventDefault()
-      const caloriesForm = document.querySelector('#calories-form')
+      
       const calorieField = caloriesForm.querySelector('#calories') 
       const addedCalories = calorieField.value
       const charId = caloriesForm.firstElementChild.id
-      updateCharacterCalories(addedCalories, charId)
+      debugger
+      const currentCal = detailedInfoContainer.querySelector('#calories').innerText
+      updateCharacterCalories(currentCal, addedCalories, charId)
+      // debugger
     })
   }
 
-  function updateCharacterCalories(addedCalories, charId) {
+  function updateCharacterCalories(currentCal, addedCalories, charId) {
+    const newCalCount = parseInt(currentCal) + parseInt(addedCalories)
     const config = {
       method: 'PATCH',
       headers: {
         "Content-Type": "application/json"
       },
       body: JSON.stringify({
-        calories: addedCalories
+        calories: newCalCount
+      })
+    }
+    fetch(baseURL + charId, config)
+      .then(resp => resp.json())
+      .then(char => {
+        detailedInfoContainer.innerHTML = ''
+        loadCharacter(charId)
+      })
+  }
+
+  function resetCounter(charId) {
+    console.log(charId)
+    const config = {
+      method: 'PATCH',
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        calories: '0'
       })
     }
     fetch(baseURL + charId, config)
@@ -95,6 +124,9 @@ document.addEventListener('DOMContentLoaded', () => {
 2. √create clickHandler
   - √when character name is clicked render all their info in the         #detailed-info tag
 
-3. when value is entered and add calories button is pressed patch the updated calorie count to the api
+3. √when value is entered and add calories button is pressed patch the updated calorie count to the api
+  -√pull from totla calories field set that to varaible 
+  -√patch the new number + old from get request
+
 
 */
