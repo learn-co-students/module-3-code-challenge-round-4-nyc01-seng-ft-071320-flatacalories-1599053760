@@ -11,7 +11,8 @@ document.addEventListener('DOMContentLoaded', e=> {
     }
 
     const renderCharacters = (characters) => {
-
+        let characterContainer = document.querySelector('#character-bar')
+        characterContainer.innerHTML = ''
         for (const character of characters){
             renderCharacter(character)
         }
@@ -92,11 +93,11 @@ document.addEventListener('DOMContentLoaded', e=> {
                     <input type="submit" value="Change Name"/>
                 </form>
                 `)
-                e.target.innerText === 'Close'    
+                e.target.innerText = 'Close'    
             }
-            else if(e.target.innerText === 'Edit'){
+            else if(e.target.innerText === 'Close'){
                 document.querySelector('#name-form').innerText = ''
-                e.target.innerText === 'Edit Name'
+                e.target.innerText = 'Edit Name'
             }
         }
     })
@@ -160,6 +161,8 @@ document.addEventListener('DOMContentLoaded', e=> {
                 .then(char =>{
                     let charName = document.querySelector('#name')
                     charName.innerText = newName
+                    form.reset()
+                    getCharacters()
                 })
 
 
