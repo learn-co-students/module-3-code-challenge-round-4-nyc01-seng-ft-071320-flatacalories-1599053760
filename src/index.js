@@ -34,7 +34,9 @@ function renderChar(char){
     calContainer = document.querySelector("#calories")
     idContainer = document.querySelector("#calories-form")
     idContainer.dataset.charId = char.id
-    nameContainer.innerText = `${char.name}`
+    nameContainer.innerHTML = `
+    ${char.name}
+    <button id="edit-btn">Edit</button>`
     imgContainer.src = char.image
     calContainer.innerText = `${char.calories}`
 }
@@ -45,23 +47,51 @@ function clickHandler(){
         if (e.target.matches(".char-name")){
             getCharData(e.target.dataset.id)
         }
-    })
-    document.addEventListener('submit', e => {
-        e.preventDefault()
-        if (e.target.matches("#calories-form")){
-            oldCal = document.querySelector("#calories").innerText
-            newCal = form.calories.value
-            currentCal = oldCal 
+
+        if (e.target.matches("#reset-btn")){
+            id = document.querySelector("#calories-form").dataset.charId
 
             options = {
                 method: "PATCH",
                 headers: {
                     "content-type": "application/json",
                     "accept": "application/json"
-                }
-                body: JSON.stringify()
+                },
+                body: JSON.stringify({calories: 0})
             }
+            fetch(baseUrl+id, options)
+            .then(res => res.json())
+            .then(renderChar)
         }
+        if (e.target.matches(#reset-btn)){
+            form = document.createElement("form")
+            container = document.getElementsByTagName("h4")
+            form.innerHTML = `
+            `
+        }
+    })
+    document.addEventListener('submit', e => {
+        e.preventDefault()
+        if (e.target.matches("#calories-form")){
+            id = e.target.dataset.charId
+            oldCal = document.querySelector("#calories").innerText
+            newCal = e.target.calories.value
+            currentCal = parseInt(oldCal) + parseInt(newCal)
+            e.target.reset()
+
+            options = {
+                method: "PATCH",
+                headers: {
+                    "content-type": "application/json",
+                    "accept": "application/json"
+                },
+                body: JSON.stringify({calories: currentCal})
+            }
+            fetch(baseUrl+id, options)
+                .then(res => res.json())
+                .then(renderChar)
+        }
+        
     })
 }
 
