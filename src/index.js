@@ -33,25 +33,38 @@ document.addEventListener("DOMContentLoaded", ()=>{
         <img id="image" src="${character.image}"><!-- display character image here -->
         <h4>Total Calories: <span id="calories">${character.calories}</span> </h4>
         <form id="calories-form">
-            <input type="hidden" value="Character's id" id="${character.id}"/> <!-- Assign character id as a value here -->
-            <input type="text" placeholder="Enter Calories" id="calories"/>
+            <input type="hidden" value="Character's id" data-id="${character.id}"/> <!-- Assign character id as a value here -->
+            <input type="number" placeholder="Enter Calories" id="calories"/>
             <input type="submit" value="Add Calories"/>
         </form>
         <button id="reset-btn">Reset Calories</button>
         `
     }
 
+    const getCharObj = (id) => {
+        let char
+        fetch(`${CHAR_URL}${id}`)
+            .then(response => response.json())
+            .then(character => {
+                console.log(character)
+                char.id = character.id
+                char.name = character.name
+                char.image = character.image
+                char.calories = character.calories
+            })
+        return char
+    }
+
     const changeCalories = (idArg, calArg) => {
+        const character = getCharObj(idArg)
+        character.calories += calArg
         const configObj = {
             method: "PATCH",
             headers: {
                 'content-type': 'application/json',
                 'accept': 'application/json'
             },
-            body: JSON.stringify({
-                id: idArg,
-                calories: calArg
-            })
+            body: JSON.stringify(character)
         }
         fetch(`${CHAR_URL}${idArg}`, configObj)
             .then(response => response.json())
@@ -61,13 +74,13 @@ document.addEventListener("DOMContentLoaded", ()=>{
     const submitHandler = () => {
         document.addEventListener("submit", (e)=>{
             const form = document.getElementById('calories-form')
-            if(e.target === form.children[2]){
+            // if(e.target === form.children[2]){
                 e.preventDefault()
                 console.log("submit button!")
-                const id = parseInt(form.children[0].value, 10)
+                const id = form.children[0].dataset.id
                 const calories = parseInt(form.children[1].value, 10)
                 changeCalories(id, calories)
-            }
+            // }
         })
     }
 
