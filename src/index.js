@@ -7,20 +7,17 @@ document.addEventListener("DOMContentLoaded", e => {
         .then(resp => resp.json())
         .then(renderChars)
     }
-
     const renderChars = charArray => {
         for (const char of charArray) {
             renderChar(char)
         }
     }
-
-    const renderChar = ( {id, name, iamge, calories} ) => {
+    const renderChar = ( {id, name, image, calories} ) => {
         const span = document.createElement('span')
         span.dataset.id = id 
         span.innerText = name 
         charBar.append(span)
     } 
-
     const clickHandler = () => {
         document.addEventListener('click', e => {
             if (e.target.matches('div span')) {
@@ -55,7 +52,6 @@ document.addEventListener("DOMContentLoaded", e => {
                         calories: 0
                     })
                 }
-
                 fetch(baseUrl + charId, options)
                 .then(res => res.json())
                 .then(data => {
@@ -86,11 +82,8 @@ document.addEventListener("DOMContentLoaded", e => {
             }
         })
     }
-
     const addNameForm = () => {
         const button = document.getElementById('edit-name-bttn') 
-
-
         button.insertAdjacentHTML('afterend', `
         <form id="edit-name-form">
             <input type="text" placeholder="Name" id="edit-name"/>
@@ -98,10 +91,8 @@ document.addEventListener("DOMContentLoaded", e => {
         </form>
         `)
     }
-
     const addNewForm = () => {
         const button = document.getElementById('new-bttn')
-
         button.insertAdjacentHTML('afterend', `
         <form id="new-form">
             <input type="text" placeholder="Name" id="new-name"/>
@@ -111,7 +102,6 @@ document.addEventListener("DOMContentLoaded", e => {
         </form>
         `)
     }
-
     const submitHandler = () => {
         document.addEventListener('submit', e => {
             e.preventDefault()
@@ -153,7 +143,7 @@ document.addEventListener("DOMContentLoaded", e => {
                 const name = newForm.children[0].value 
                 const url = newForm.children[1].value 
                 const cals = newForm.children[2].value 
-
+                
                 options = {
                     method: 'POST',
                     headers: {
@@ -166,7 +156,6 @@ document.addEventListener("DOMContentLoaded", e => {
                         calories: cals
                     })
                 }
-
                 fetch(baseUrl, options)
                 .then(res => res.json())
                 .then(data => {
@@ -189,7 +178,6 @@ document.addEventListener("DOMContentLoaded", e => {
                         name: name
                     })
                 }
-
                 fetch(baseUrl + charId, options)
                 .then(res => res.json())
                 .then(data => {
@@ -202,7 +190,6 @@ document.addEventListener("DOMContentLoaded", e => {
             }
         })
     }
-
     submitHandler()
     clickHandler()
     fetchChars()
