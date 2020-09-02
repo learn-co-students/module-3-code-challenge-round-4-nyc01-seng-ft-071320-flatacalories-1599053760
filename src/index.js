@@ -3,6 +3,7 @@ document.addEventListener("DOMContentLoaded", function() {
     const baseUrl = "http://localhost:3000/characters/"
     const charForm = document.querySelector('#calories-form')
     const charCalories = document.querySelector('#calories')
+    const resetBtn = document.querySelector('#reset-btn')
 
     const getCharacters = () => {
         fetch(baseUrl)
@@ -36,6 +37,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
         charForm.characterId.id = char.id
         charForm.lastElementChild.dataset.id = char.id
+        resetBtn.dataset.id = char.id
     }
 
     function clickHandler() {
@@ -48,6 +50,25 @@ document.addEventListener("DOMContentLoaded", function() {
                 fetch(baseUrl + id)
                 .then(resp => resp.json())
                 .then(data => getInfo(data))
+            }
+
+            if (click.matches('#reset-btn')) {
+                let id = click.dataset.id
+                
+                fetch(baseUrl + id, { 
+                    method: "PATCH",
+                    headers: { 
+                        "Content-type": "application/json",
+                        "accept": "application/json"
+                    },
+                    body: JSON.stringify({
+                        calories: 0
+                    })
+                })
+                .then(resp => resp.json())
+                .then(data => {
+                    charCalories.innerText = 0
+                })   
             }
         })
     }
@@ -99,4 +120,13 @@ document.addEventListener("DOMContentLoaded", function() {
     - send another GET request with ID to get specific info
     - update form with character ID
 4) make add calorie button to add caolries, patch request
+
+5) click on "reset calories" to set calories to 0
+    - persist to server and DOM
+6) change character's name 
+    - make edit button on detailed-info div
+    - once edit is clicked, show input field + submit button 
+    - grab new name and create submit handler
+    - patch request to persist and update DOM
+
 */
