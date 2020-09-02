@@ -15,6 +15,18 @@ const fetchSingleCharacter = id => {
         .then(character => putCharacterOnInfo(character))
 }
 
+const updateCharacter = id => {
+    const options = {
+        method: "PATCH",
+        headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json"
+        },
+        body: JSON.stringify({
+            calories: newCalories
+        })
+    }
+}
 
 //put character on bar
 const renderCharacter = character => {
@@ -38,8 +50,9 @@ const clickHandler = () => {
 
 //put character on info
 const putCharacterOnInfo = character => {
-    
+
     const detailedInfo = document.querySelector("#detailed-info")
+    detailedInfo.dataset.num = character.id
 
     //name
     const name = document.querySelector("#name")
@@ -57,7 +70,17 @@ const putCharacterOnInfo = character => {
 const submitHandler = () => {
     document.addEventListener("submit", e => {
         e.preventDefault()
-        console.log(e.target)
+        //give data number to the parent element
+        id = e.target.parentElement.dataset.num
+        
+        formId.calories.innerHTML = {
+            calories: formId.calories.value
+        }
+        
+        newCalories = parseInt(formId.calories.value)
+        
+        updateCharacter(id)
+
     })
 }
 
