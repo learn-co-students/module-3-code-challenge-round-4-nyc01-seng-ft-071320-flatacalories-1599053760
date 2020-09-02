@@ -16,7 +16,7 @@
 
 document.addEventListener('DOMContentLoaded', function() {
 
-    let characters = []
+    
     const characterBar = document.querySelector('div#character-bar')
     const detailedInfo = document.querySelector('div#detailed-info')
 
@@ -25,7 +25,7 @@ document.addEventListener('DOMContentLoaded', function() {
         .then(response => response.json())
         .then(allCharacters => {
             renderCharacters(allCharacters)
-            characters = allCharacters
+            window.characters = allCharacters
         })
     }
 
@@ -41,23 +41,31 @@ document.addEventListener('DOMContentLoaded', function() {
                 
                 let character = findCharacter(e.target.id)
                 renderCharacterInfo(character);
-                //refactor this 
-                // detailedInfo.innerHTML = ''
-                // detailedInfo.insertAdjacentHTML('beforeend', `
-                // <p id="name">${character.name}</p>
-                // <img id="image" src="${character.image}">
-                // <h4>
-                //     "Total Calories: "
-                //     <span id="calories">${character.calories}</span>
-                // </h4>
-                // <form id="calories-form">
-                //     <input type="hidden" value="Character's id" id="characterId"/> <!-- Assign character id as a value here -->
-                //     <input type="text" placeholder="Enter Calories" id="calories"/>
-                //     <input type="submit" value="Add Calories"/>
-                // </form>
-                // <button id="reset-btn">Reset Calories</button>`)
-
                 submitHandler(character)
+            }
+            else if(e.target.matches('button#reset-btn')) {
+                let character = findCharacter(e.target.dataset.id)
+                let options = {
+
+                    method: 'PATCH',
+
+                    headers: {
+                        'Content-Type': 'application/json' ,
+                        Accept: 'application/json'
+                    },
+
+                    body: JSON.stringify({
+                        'calories': 0 
+                    })
+                }
+                fetch(`http://localhost:3000/characters/${character.id}`, options)
+                .then(response => response.json())
+                .then(updatedChar => {
+                    characterBar.innerHTML = ''
+                    detailedInfo.innerHTML = ''
+                    getCharacters()
+                    renderCharacterInfo(updatedChar)
+                })
             }
             
         })
@@ -79,21 +87,23 @@ document.addEventListener('DOMContentLoaded', function() {
             "Total Calories: "
             <span id="calories">${character.calories}</span>
         </h4>
-        <form id="calories-form">
+        <form id="calories-form" data-id="${character.id}">
             <input type="hidden" value="Character's id" id="characterId"/> <!-- Assign character id as a value here -->
             <input type="text" placeholder="Enter Calories" id="calories"/>
             <input type="submit" value="Add Calories"/>
         </form>
-        <button id="reset-btn">Reset Calories</button>`)
+        <button id="reset-btn" data-id="${character.id}">Reset Calories</button>`)
     }
 
-    function submitHandler(character) {
+    function submitHandler() {
         document.addEventListener('submit', function (e) {
+            
             if(e.target.matches('form#calories-form')) {
+                let character = findCharacter(e.target.dataset.id)
                 let form = e.target.value
                 e.preventDefault();
-                let calories = parseInt(e.target[1].value, 10) + character.calories
-                console.log(calories)
+                let newCalories = parseInt(e.target[1].value, 10) + character.calories
+                console.log(newCalories)
                 console.log(character.calories)
                 let options = {
 
@@ -105,15 +115,15 @@ document.addEventListener('DOMContentLoaded', function() {
                     },
 
                     body: JSON.stringify({
-                        'calories': calories 
+                        'calories': newCalories 
                     })
                 }
                 fetch(`http://localhost:3000/characters/${character.id}`, options)
                 .then(response => response.json())
                 .then(updatedChar => {
                     characterBar.innerHTML = ''
-                    getCharacters()
                     detailedInfo.innerHTML = ''
+                    getCharacters()
                     renderCharacterInfo(updatedChar)
                 })
 
