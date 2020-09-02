@@ -30,6 +30,7 @@ console.log(charCalories)
           renderCharacter(characters[i])
 
 
+
         }
               allCharNames.addEventListener('click', function(event){
                   event.preventDefault()
@@ -37,10 +38,25 @@ console.log(charCalories)
                 if(event.target.className == characters[1].name){
                     renderCharacter(characters[1])
                 }
-                else if
+                else if(event.target.className == characters[0].name){
+                    renderCharacter(characters[0])
+                }
+                else if(event.target.className == characters[2].name){
+                    renderCharacter(characters[2])
+                }
+                else if(event.target.className == characters[3].name){
+                    renderCharacter(characters[3])
+                }
+                else if(event.target.className == characters[4].name){
+                    renderCharacter(characters[4])
+                }
+                else if(event.target.className == characters[5].name){
+                    renderCharacter(characters[5])
+                }
 
-              })
-    }
+            })
+        }
+        // be able to click a character (event listsener), bring to corresponding info.. renderCharacter
 
     function renderCharacter(character){
         charImage.src = character.image
@@ -49,8 +65,14 @@ console.log(charCalories)
     }
 
 
+    function addCalories(){
+        calorieForm.addEventListener('submit', function(event){
+            event.preventDefault()
+            let addCalories = event.target[1].value
+            let newCalCount = addCalories + character.calories
 
-    // be able to click a character (event listsener), bring to corresponding info.. renderCharacter
-
+        })
+    }
+    addCalories()
 
 })
