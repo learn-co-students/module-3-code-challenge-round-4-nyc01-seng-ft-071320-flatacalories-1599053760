@@ -43,7 +43,8 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   const showChar = char => {
-    infoDiv.dataset.charId = char.id
+    // infoDiv.dataset.charId = char.id
+    qs('#characterId').value = char.id
     qs('#name').textContent = char.name
     qs('#image').src = char.image
     qs('#calories').textContent = char.calories
@@ -54,11 +55,34 @@ document.addEventListener('DOMContentLoaded', () => {
       e.preventDefault()
       switch (true) {
         case e.target === calorieForm:
-          console.log('hi')
+          addCalorie(e.target)
           break
         default:
           break
       }
+    })
+  }
+
+  const addCalorie = target => {
+    const currentCalorie = parseInt(qs('#calories').textContent)
+    const addCalorie = parseInt(target[1].value)
+    const charId = target[0].value
+    debugger
+    const options = {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      }, 
+      body: JSON.stringify({
+        calories: currentCalorie + addCalorie
+      })
+    }
+
+    fetch(`${BASE_URL}${charId}`, options)
+    .then(res => res.json())
+    .then(char => {
+      qs('#calories').textContent = char.calories
     })
   }
 
