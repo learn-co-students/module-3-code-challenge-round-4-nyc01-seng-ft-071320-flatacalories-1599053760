@@ -54,11 +54,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
             const calInput = e.target.calories
             const calDisplay = e.target.previousElementSibling.innerText
-            let calNum = parseInt(e.target.previousElementSibling.innerText.split(' ')[2])
+            let calNum = parseInt(calDisplay.split(' ')[2])
             let charId = e.target.previousElementSibling.previousElementSibling.dataset.id
             
-            // console.log(e.target)
-            // debugger
+            console.log(e.target)
+            debugger
 
             const options = {
                 method: 'PATCH',
@@ -73,7 +73,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
             fetch(baseURL + charId, options)
             .then(response => response.json())
-            .then(console.log)
+            .then(cal => {
+                console.log(cal)
+                return calNum
+            })
+            calForm.reset
         })
     }
 
