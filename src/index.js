@@ -1,9 +1,11 @@
 document.addEventListener("DOMContentLoaded", function() {
 
     const baseUrl = "http://localhost:3000/characters/"
+
     const charForm = document.querySelector('#calories-form')
     const charCalories = document.querySelector('#calories')
     const resetBtn = document.querySelector('#reset-btn')
+    const charInfo = document.querySelector('#detailed-info')
 
     const getCharacters = () => {
         fetch(baseUrl)
@@ -26,8 +28,6 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 
     function getInfo(char) {
-        const charInfo = document.querySelector('#detailed-info')
-
         let charP = charInfo.firstElementChild
         let charImg = document.querySelector('#image')
 
@@ -38,6 +38,12 @@ document.addEventListener("DOMContentLoaded", function() {
         charForm.characterId.id = char.id
         charForm.lastElementChild.dataset.id = char.id
         resetBtn.dataset.id = char.id
+
+        charInfo.insertAdjacentHTML('beforeend', `
+        <button id="edit" data-id=${char.id}>Edit Name</button>`
+        )
+
+        editName(char)
     }
 
     function clickHandler() {
@@ -69,6 +75,10 @@ document.addEventListener("DOMContentLoaded", function() {
                 .then(data => {
                     charCalories.innerText = 0
                 })   
+            }
+
+            if (click.matches('#edit')) {
+                
             }
         })
     }
@@ -106,7 +116,16 @@ document.addEventListener("DOMContentLoaded", function() {
         })
     }
 
-    
+    function editName(char) {
+        charInfo.insertAdjacentHTML('beforeend', `
+        <form id='edit' display='none'>
+        <input type='text' placeholder=${char.name} id='new-name'>
+        <input type='submit' data-id=${char.id}>
+        </form>
+        `)
+                
+    }
+
     getCharacters()
     clickHandler()
     submitHandler()
