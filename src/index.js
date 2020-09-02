@@ -54,6 +54,38 @@ characterBar.addEventListener('click', e => {
     }
 })
 
+function patchFetch(characterId, config) {
+    fetch(baseURL + characterId, config)
+    .then(resp => resp.json())
+    .then(character => displayCharacterInfo(character))
+}
+
+function createConfig(type, value) {
+    if (type == "calories") {
+        return {
+            method: "PATCH",
+            headers: {
+                "content-type": "application/json",
+                "accepts": "application/json"
+            },
+            body: JSON.stringify({
+                calories: value
+            })
+        }
+    } else if (type == "name") {
+        return {
+            method: "PATCH",
+            headers: {
+                "content-type": "application/json",
+                "accepts": "application/json"
+            },
+            body: JSON.stringify({
+                name: value
+            })
+        }
+    }
+}
+
 function changeCalories(target) {
     const characterId = gid('characterId').value
     let totalCalories
@@ -65,21 +97,8 @@ function changeCalories(target) {
         totalCalories = 0
     }
     console.log(totalCalories)
-    const config = {
-        method: "PATCH",
-        headers: {
-            "content-type": "application/json",
-            "accepts": "application/json"
-        },
-        body: JSON.stringify({
-            calories: totalCalories
-        })
-    } 
-    
-    fetch(baseURL + characterId, config)
-    .then(resp => resp.json())
-    .then(character => displayCharacterInfo(character))
-    
+    const config = createConfig('calories', totalCalories)
+    patchFetch(characterId, config)  
 }
 
 detailedInfo.addEventListener('submit', e => {
@@ -90,19 +109,8 @@ detailedInfo.addEventListener('submit', e => {
         const newName = e.target.name.value
         const characterId = e.target.previousSibling.dataset.characterId
         console.log(characterId)
-        const config = {
-            method: "PATCH",
-            headers: {
-                "content-type": "application/json",
-                "accepts": "application/json"
-            },
-            body: JSON.stringify({
-                name: newName
-            })
-        }
-        fetch(baseURL + characterId, config)
-        .then(resp => resp.json())
-        .then(character => displayCharacterInfo(character))
+        const config = createConfig("name", newName)
+        patchFetch(characterId, config)
     }
 })
 
@@ -121,12 +129,3 @@ detailedInfo.addEventListener('click', e => {
 })
 
 getCharacters()
-
-
-
-/*
-add edit button
-add event listener to button
-create form on click
-fetch patch on submit
-*/

@@ -2,15 +2,18 @@
   "characters": [
     {
       "id": 1,
-      "name": "Mr. Adorable",
+      "name": "Mr. Cute",
       "image": "https://thumbs.gfycat.com/EquatorialIckyCat-max-1mb.gif",
-      "calories": 0
+      "calories": 110,
+      "field": 100,
+      "a": 200
     },
     {
       "id": 2,
       "name": "Mr. Monkey",
       "image": "https://thumbs.gfycat.com/FatalInnocentAmericanshorthair-max-1mb.gif",
-      "calories": 0
+      "calories": 110,
+      "value": 110
     },
     {
       "id": 3,
