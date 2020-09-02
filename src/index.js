@@ -30,29 +30,27 @@ function renderCharacters(character) {
 }
 
 const clickMe = () => {
-    const span = document.getElementById('character-bar').childNodes
+    const span = document.querySelector('span')
     console.log(span)
     span.addEventListener('click', (e) => {
         console.log(e.target)
-        
-   
-            
-            const characterInfo = document.querySelector('.characterInfo')
-            const detailedInfo = document.querySelector('#detailed-info')
-            const nameId = document.querySelector('#name')
-            const imgId = document.querySelector('#image')
-            const caloriesSpan = document.querySelector('#calories')
-
-            nameId.innerHTML = character.name
-            imgId.innerHTML = character.image
-            caloriesSpan.innerHTML = character.calories
-
-            characterInfo.appendChild(detailedInfo)
-            detailedInfo.appendChild(nameId)
-            detailedInfo.appendChild(imgId)
-            detailedInfo.appendChild(caloriesSpan)
-  
     })
+            // const characterInfo = document.querySelector('.characterInfo')
+            // const detailedInfo = document.querySelector('#detailed-info')
+            // const nameId = document.querySelector('#name')
+            // const imgId = document.querySelector('#image')
+            // const caloriesSpan = document.querySelector('#calories')
+
+            // nameId.innerHTML = character.name
+            // imgId.innerHTML = character.image
+            // caloriesSpan.innerHTML = character.calories
+
+            // characterInfo.appendChild(detailedInfo)
+            // detailedInfo.appendChild(nameId)
+            // detailedInfo.appendChild(imgId)
+            // detailedInfo.appendChild(caloriesSpan)
+  
+   
        
 }
 
