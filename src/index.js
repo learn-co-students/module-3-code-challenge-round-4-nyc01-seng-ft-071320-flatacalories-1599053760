@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     const renderCharacters = characters => {
-        
+      
        characters.forEach(character => renderCharacter(character))
     }
     
@@ -18,8 +18,20 @@ document.addEventListener('DOMContentLoaded', () => {
     const renderCharacter = character => {
         const charBar = document.getElementById('character-bar')
         const span = document.createElement('span')
-        charBar.innerHTML =  span
-        span.textContent = character.name
+        span.innerHTML = character.name
+        charBar.append(span)
+    }
+
+    // Grabbing the display div//
+    const infoDiv = document.getElementById('detailed-info')
+    console.log(infoDiv)
+    
+    
+    //click Handling//
+    const clickHandler = () => {
+        span.addEventListener('click', e => {
+            console.log(e.target)
+        })
 
 
     }
@@ -39,10 +51,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 
-
-
-
-
+clickHandler()
 getCharacters()
 
 })
@@ -57,7 +66,7 @@ getCharacters()
 // See all characters names in a div with the id of "character-bar". 
 // On page load, request data from the server to get all of the characters objects.
 // When you have this information, you'll need to add a span tag with the 
-// character's name to the character bar.
+// character's name to the character bar. DONE
 
 // Select a character from the character bar and see character's info 
 // inside #detailed-info div.
