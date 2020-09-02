@@ -31,8 +31,6 @@ function renderCharacters(characters) {
 // render to seperate part of the page
 function renderCharacterFull(character) {
    const charId = character.id
-   console.log(charId)
-   // charId.dataset.id
    const name = character.name
    const image = character.image
    const calories = character.calories
@@ -84,7 +82,31 @@ function clickHandler() {
 function submitHandler() {
    document.addEventListener('submit', e => {
       e.preventDefault()
-      console.log(e.target)
+      const form = e.target
+      const h4Tag = form.previousElementSibling
+      const calories = h4Tag.childNodes[1]
+      let currentCalories = parseInt(calories.textContent)
+      const formcalories = parseInt(form.calories.value)
+      let updatedCalories = currentCalories + formcalories
+      calories.textContent = updatedCalories
+      console.log(calories)
+      const id = form.childNodes[1].value
+      console.log(id)
+      
+      if (calories === "") {
+
+      } else {
+         fetch(baseUrl + id, {
+            method: 'PATCH',
+            headers: {
+               "content-type": "application/json",
+               "accept": "application/json"
+            },
+            body: JSON.stringify({calories: calories.textContent})
+         }).then(response => response.json())
+            .then(data => renderCharacterFull(data))
+      }
+
    })
 }
 
@@ -103,7 +125,7 @@ As a user, I can:
 
 2. √ Select a character from the character bar and see character's info inside `#detailed-info` div. 
 
-3. Clicks on "Add Calories" button to add calories to a Character. Persist calories value to the server and update the DOM.
+3. √ Clicks on "Add Calories" button to add calories to a Character. Persist calories value to the server and update the DOM.
 
 ## Advanced Deliverables
 
