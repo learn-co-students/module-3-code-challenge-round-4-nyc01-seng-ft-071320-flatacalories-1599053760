@@ -1,13 +1,15 @@
 document.addEventListener("DOMContentLoaded", () => {
   const baseUrl = "http://localhost:3000/characters"
+  const divBar = document.querySelector('#character-bar')
 
   const clickHandler = () => {
-    document.addEventListener('click', e => {
-    if(e.target === document.querySelector('span')){
-      console.log(e.target)
-      }
-    })
+    document.addEventListener('click', e => )
   }
+
+
+
+
+
 
   // rendering
   const renderCharacters = (characters) => {
@@ -15,7 +17,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   const renderCharacter = character => {
-    const divBar = document.querySelector('#character-bar')
+
     const span = document.createElement('span')
 
     span.innerText = character.name
