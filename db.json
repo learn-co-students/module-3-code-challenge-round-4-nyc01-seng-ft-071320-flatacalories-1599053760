@@ -4,13 +4,14 @@
       "id": 1,
       "name": "Mr. Cute",
       "image": "https://thumbs.gfycat.com/EquatorialIckyCat-max-1mb.gif",
-      "calories": 0
+      "calories": "100",
+      "newVal": "50"
     },
     {
       "id": 2,
       "name": "Mr. Monkey",
       "image": "https://thumbs.gfycat.com/FatalInnocentAmericanshorthair-max-1mb.gif",
-      "calories": 0
+      "calories": "100"
     },
     {
       "id": 3,

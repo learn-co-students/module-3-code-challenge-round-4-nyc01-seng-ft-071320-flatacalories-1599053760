@@ -45,15 +45,34 @@ document.addEventListener('DOMContentLoaded', () => {
         charSpan.innerText = charData.calories
         let id = charId
         form.dataset.id = id
-        console.log(form)
     }
 
     const submitYandler = () => {
         form.addEventListener('submit', (e) => {
             e.preventDefault();
-            // let charId = e.target.children[0].value
+            let charId = e.target.dataset.id
             let newVal = e.target.children[1].value;
+            updateChar(charId, newVal);
         })
+    }
+
+    const updateChar = (charId, newVal) => {
+        let config = {
+            method: "PATCH",
+            headers: {
+              "content-type": "application/json",
+              "accept": "application/json"
+            },
+            body: JSON.stringify({
+                calories: newVal
+            })
+          }
+           fetch(baseUrl + charId, config)
+           .then(resp => resp.json())
+           .then(data => {
+               charSpan.textContent = `${data.calories} calories`
+           })
+           form.reset();
     }
 
 
@@ -61,4 +80,7 @@ document.addEventListener('DOMContentLoaded', () => {
     clickYandler();
     submitYandler();
 });
+
+
+    
 
