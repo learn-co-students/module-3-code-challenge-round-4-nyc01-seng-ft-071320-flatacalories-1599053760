@@ -29,10 +29,8 @@ function render(char){
         const form = detail.querySelector('form')
         const idHolder = form.firstElementChild
         idHolder.value=char.id
-        form.addEventListener('submit',(e)=>{
-            console.log("ya be pushing the submit button, fool")
+        form.addEventListener('submit',(e)=>{ //console.log("ya be pushing the submit button, fool") //console.log(form)
             e.preventDefault()
-            console.log(form)
             const adder = parseInt(form.calories.value)
             const calories = parseInt(form.previousElementSibling.firstElementChild.innerText)
             const newCalories=calories+adder
@@ -45,7 +43,10 @@ function render(char){
                     body: JSON.stringify({
                         calories:newCalories
                     })
-                })//end of my fetch
+                }).then(res=>res.json()).then(object=>{//console.log(object.calories)
+                    form.previousElementSibling.firstElementChild.innerText=object.calories
+                }) 
+                //end of my fetch //.then starts a new conversation about the object
         })
 
     })//This is the end of the Span Event Listerner
