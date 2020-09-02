@@ -57,9 +57,9 @@ document.addEventListener("DOMContentLoaded", () => {
             let calNum = parseInt(e.target.previousElementSibling.innerText.split(' ')[2])
             let charId = e.target.previousElementSibling.previousElementSibling.dataset.id
 
-            calNum += parseInt(calInput)
+            // newCal = calNum + parseInt(calInput)
 
-            calDisplay.innerText = `Total Calories: ${calNum}`
+            // calDisplay.innerText = `Total Calories : ${calNum += parseInt(calInput)}`
             
             // console.log(e.target)
             // debugger
