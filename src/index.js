@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
     console.log('DOM fully loaded and parsed');
     get()
     reset()
-    formName()
+    // formName()
 });
 
 function get(){
@@ -81,20 +81,19 @@ function reset(){
     })
 }//this is the end of my reset
 
-function formName(){
-    document.addEventListener('click',(e)=>{
-        if (e.target.matches('.cuties')){console.log("you have hit me in the edit")
-            const parent = e.target
-            
-            const nameForm = document.createElement('form')
-            nameForm.className=('edit-name')
-            nameForm.innerHTML=`<input type="text" placeholder="Enter New Name" id="name"/>
-            <input type="submit" value="Edit Name"/>`
-            parent.append(nameForm)
-            // nameForm.addEventListener('click',(e)=>{
-            //     e.preventDefault()
-            //     nameForm
-            // })//This is the end of 
-        }//end of name changer
-    })//end of delegator
-}//end for formName
+// function formName(){
+//     document.addEventListener('click',(e)=>{
+//         if (e.target.matches('.cuties')){console.log("you have hit me in the edit")
+//             const parent = e.target
+//             const nameForm = document.createElement('form')
+//             nameForm.className=('edit-name')
+//             nameForm.innerHTML=`<input type="text" placeholder="Enter New Name" id="name"/>
+//             <input type="submit" value="Edit Name"/>`
+//             parent.append(nameForm)
+//             // nameForm.addEventListener('click',(e)=>{
+//             //     e.preventDefault()
+//             //     nameForm
+//             // })//This is the end of 
+//         }//end of name changer
+//     })//end of delegator
+// }//end for formName
