@@ -16,7 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const renderCharacter = (character) => {
         const characterBar = document.querySelector('#character-bar')
         const span = document.createElement('span')
-        
+        const characterId = character.id
         span.innerText = `${character.name}`
         
         characterBar.append(span)
@@ -27,10 +27,9 @@ document.addEventListener('DOMContentLoaded', () => {
             if(e.target.matches('span')){
                 const characterInfo = document.getElementsByClassName('characterInfo')
                 const detailedInfoDiv = document.getElementById('detailed-info')
-                console.log()
                 
                 detailedInfoDiv.insertAdjacentHTML = `
-                <p id="name">${character.name}</p>
+                ${character.name}
                 <img id="image" src=""${character.image}""><!-- display character image here -->
                 <h4>Total Calories: <span id="calories">Character's Calories ${character.calories}</span> </h4>
                 <form id="calories-form">
@@ -55,10 +54,10 @@ document.addEventListener('DOMContentLoaded', () => {
             const totalCalories = 0
 
 
-            const calories = form.calories.value
+            let calories = form.calories.value
             totalCalories += calories
 
-            form.dataset.id = character.id
+        //    const id = form.dataset.id = character.id
         })
 
         const options = {
@@ -69,9 +68,9 @@ document.addEventListener('DOMContentLoaded', () => {
             }, 
             body: JSON.stringify({calories: calories})
         }
-        fetch(baseUrl + id, options)
-        .then(response => response.json())
-        .then(character => getCharacters)
+        // fetch(baseUrl + id, options)
+        // .then(response => response.json())
+        // .then(character => getCharacters)
     }
 
     
