@@ -52,13 +52,17 @@ document.addEventListener("DOMContentLoaded", () => {
         calForm.addEventListener("submit", (e) => {
             e.preventDefault()
 
-            const calInput = e.target.calories
-            const calDisplay = e.target.previousElementSibling.innerText
-            let calNum = parseInt(calDisplay.split(' ')[2])
+            let calInput = e.target.calories.value
+            let calDisplay = e.target.previousElementSibling
+            let calNum = parseInt(e.target.previousElementSibling.innerText.split(' ')[2])
             let charId = e.target.previousElementSibling.previousElementSibling.dataset.id
+
+            calNum += parseInt(calInput)
+
+            calDisplay.innerText = `Total Calories: ${calNum}`
             
-            console.log(e.target)
-            debugger
+            // console.log(e.target)
+            // debugger
 
             const options = {
                 method: 'PATCH',
@@ -67,17 +71,17 @@ document.addEventListener("DOMContentLoaded", () => {
                     // 'Accept': 'application/json',
                 },
                 body: JSON.stringify({
-                    calories: calNum += parseInt(calInput.value)
+                    calories: calNum += parseInt(calInput)
                 })
             }
 
             fetch(baseURL + charId, options)
             .then(response => response.json())
-            .then(cal => {
-                console.log(cal)
-                return calNum
-            })
-            calForm.reset
+            // .then(cal => {
+            //     cal = calNum += parseInt(calInput.value)
+            // })
+            calForm.reset()
+            
         })
     }
 
