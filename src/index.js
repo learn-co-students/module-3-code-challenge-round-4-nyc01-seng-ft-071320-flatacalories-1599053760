@@ -35,6 +35,8 @@ document.addEventListener("DOMContentLoaded", (e) => {
             } else if(button.matches(".add-calories-btn")){
                 let enteredNum = parseInt(button.previousElementSibling.value)
                 patchCalories(enteredNum)
+            } else if(button.matches("#reset-btn")){
+                resetCalories()
             }
         })
     }
@@ -54,7 +56,7 @@ document.addEventListener("DOMContentLoaded", (e) => {
         <input type="text" placeholder="Enter Calories">
         <input type="submit" value="Add Calories" class="add-calories-btn" data-id=${characterObj.id}>
         <br><br>
-        <button id="reset-btn">Reset Calories</button>
+        <button id="reset-btn" data-id=${characterObj.id}>Reset Calories</button>
         `
     }
 
@@ -80,28 +82,45 @@ document.addEventListener("DOMContentLoaded", (e) => {
         .then(Data => {
             button.previousElementSibling.previousElementSibling.innerText = `Total Calories: ${total}` 
         })
-
-        
     }
 
-
-
-    function submitHandler() {
-        document.addEventListener("submit", e => {
-            e.preventDefault()
-            console.log(e.target)
-
-            // document.querySelector("#detailed-info > input.add-calories-btn")
-            button = e.target
-            if(button == "submit")
-                console.log("hello")
-                debugger
+    function resetCalories(){
+        let id = button.dataset.id
+        // debugger
+        const options = {
+            "method": "PATCH",
+            "headers": {
+                "Content-Type": "application/json",
+                "accept": "application/json"
+            },
+        body: JSON.stringify({ calories: 0 })
+        }
+        fetch(baseUrl + id, options)
+        .then(res => res.json())
+        .then(Success => console.log("Reset"))
+        .then(console.log)
+        .then(Data => {
+            button.parentElement.firstElementChild.nextElementSibling.nextElementSibling.innerText = `Total Calories: 0` 
         })
     }
 
 
+    // function submitHandler() {
+    //     document.addEventListener("submit", e => {
+    //         e.preventDefault()
+    //         console.log(e.target)
+            
+    //         // document.querySelector("#detailed-info > input.add-calories-btn")
+    //         button = e.target
+    //         if(button == "reset-btn")
+    //             console.log("hello")
+    //             debugger
+    //     })
+    // }
 
-    submitHandler()
+
+
+    // submitHandler()
     clickHandler()
 getCharacters()
 /*
