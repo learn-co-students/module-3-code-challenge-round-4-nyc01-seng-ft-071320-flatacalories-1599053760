@@ -5,7 +5,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const clickHandler = () => {
     document.addEventListener('click', e => {
-      
+
       if(e.target.className === 'spanE'){
 
         fetch(baseUrl)
@@ -15,8 +15,8 @@ document.addEventListener("DOMContentLoaded", () => {
         })
 
         const renderDom = (c) => {
-          const domImage = document.querySelector("#image")
-          const cName = c.name
+          const detailedInfo = document.querySelector('#detailed-info')
+          
 
         }
 
