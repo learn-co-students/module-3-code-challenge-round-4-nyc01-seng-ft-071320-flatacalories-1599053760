@@ -63,8 +63,7 @@ document.addEventListener("DOMContentLoaded", (e) => {
         <br><br>
         <input type="text" placeholder="Enter New Name">
         <button id="name-change" data-id=${characterObj.id}> Change Name </button>
-        <input type="text" placeholder="Enter a new character"
-        <button id="new-character"> New Character </button>
+        
         `
     }
 

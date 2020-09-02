@@ -4,23 +4,23 @@
       "id": 1,
       "name": "Mr C",
       "image": "https://thumbs.gfycat.com/EquatorialIckyCat-max-1mb.gif",
-      "calories": null
+      "calories": 0
     },
     {
       "id": 2,
       "name": "Monkers",
       "image": "https://thumbs.gfycat.com/FatalInnocentAmericanshorthair-max-1mb.gif",
-      "calories": 0
+      "calories": 4444
     },
     {
       "id": 3,
-      "name": "Zeber",
+      "name": "Zebra2",
       "image": "https://media2.giphy.com/media/20G9uNqE3K4dRjCppA/source.gif",
-      "calories": 100
+      "calories": 200
     },
     {
       "id": 4,
-      "name": "Master Lion",
+      "name": "Simba",
       "image": "http://bestanimations.com/Animals/Mammals/Cats/Lions/animated-lion-gif-11.gif",
       "calories": 0
     },
