@@ -6,6 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const calorieForm = qs('#calories-form')
   const detailDiv = qs('#detailed-info')
   const infoDiv = qs('.characterInfo')
+
   const editForm = ce('form')
   infoDiv.append(editForm)
   editForm.id = 'edit-character'
@@ -13,6 +14,15 @@ document.addEventListener('DOMContentLoaded', () => {
     <input type="text" placeholder="Enter Name" id="character-name"/>
     <input type="submit" value="Edit Character"/>
   `
+  // const newCharForm = ce('form')
+  // infoDiv.append(newCharForm)
+  // newCharForm.id = 'new-character'
+  // newCharForm.innerHTML = `
+  //   <input type="text" placeholder="Enter Name" id="new-character-name"/>
+  //   <input type="text" placeholder="Enter Image URL" id="new-character-image"/>
+  //   <input type="submit" value="Add Character"/>
+  // `
+
   
   const getChars = () => {
     fetch(BASE_URL)
@@ -72,6 +82,10 @@ document.addEventListener('DOMContentLoaded', () => {
           break
         case e.target === editForm:
           editChar(e.target)
+          break
+        // case e.target === newCharForm:
+        //   addChar(e.target)
+        //   break
         default:
           break
       }
