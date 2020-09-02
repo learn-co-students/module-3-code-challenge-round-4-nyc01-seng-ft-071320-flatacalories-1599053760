@@ -48,7 +48,39 @@ function displayInfo(character){
 
 form.addEventListener('submit', function(e){
     e.preventDefault();
-    e.target.children[0].id = e.target.previousElementSibling.dataset.id
-    console.log(form.children[1].value)
+    let charId = e.target.previousElementSibling.dataset.id
+    let currentCal = e.target.previousElementSibling.children[0].innerText
+    e.target.children[0].id =  charId
+    let addedCal = form.children[1].value
+    let newCalCount = parseInt(addedCal) + parseInt(currentCal)
+    updateCal(newCalCount, charId)
+    form.reset();
 
 })
+
+//update the calories for character when user clicks submit button on form
+function updateCal(newCal, charId){
+    console.log(newCal)
+    let updatedCal = parseInt(newCal)
+    let config = {
+        method: 'PATCH',
+        headers: {
+        'Content-type': 'application/json'
+        },
+        body: JSON.stringify({
+            calories: updatedCal
+        })
+    }
+
+    fetch(baseURL + charId, config)
+    .then(resp => resp.json())
+    .then(update => {
+        if(update){
+            let cal = document.querySelector('#calories')
+            cal.innerText = update.calories
+        }
+    })
+        
+  
+    
+}
