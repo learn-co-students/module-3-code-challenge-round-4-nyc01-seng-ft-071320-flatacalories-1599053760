@@ -33,7 +33,9 @@ function render(char){
             console.log("ya be pushing the submit button, fool")
             e.preventDefault()
             console.log(form)
-            const calories = parseInt(char.calores) + form.calories.value
+            const adder = parseInt(form.calories.value)
+            const calories = parseInt(form.previousElementSibling.firstElementChild.innerText)
+            const newCalories=calories+adder
             fetch(`http://localhost:3000/characters/${char.id}`, {
                 method: "PATCH",
                 headers: {
@@ -41,7 +43,7 @@ function render(char){
                     "accept": "application/json"
                 },
                     body: JSON.stringify({
-                        calories:calories
+                        calories:newCalories
                     })
                 })//end of my fetch
         })
