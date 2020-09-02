@@ -7,7 +7,8 @@ const allCharNames = document.querySelector("#character-bar")
 const calorieForm = document.querySelector("#calories-form")
 const resetCalorieBtn = document.querySelector("#reset-btn")
 const charCalories = document.querySelector("#calories")
-console.log(charCalories)
+console.log(charUrl + 3)
+
 
 
 
@@ -62,17 +63,31 @@ console.log(charCalories)
         charImage.src = character.image
         charName.innerText = character.name
         charCalories.innerText = character.calories
+        addCalories(character)
     }
-
-
-    function addCalories(){
+    
+    function addCalories(character){
         calorieForm.addEventListener('submit', function(event){
             event.preventDefault()
             let addCalories = event.target[1].value
-            let newCalCount = addCalories + character.calories
+            let newCalCount = parseInt(addCalories) + character.calories
+            console.log(newCalCount)
+            persistCalories(character)
+
+
+            function persistCalories(character){
+                fetch(charUrl + character.id, {
+                    method: "PATCH",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Accepts": "application/json"
+                    },
+                    body: JSON.stringify({ calories: newCalCount })
+                }).then(resp => resp.json()).then(data => console.log(data))
+            }
 
         })
     }
-    addCalories()
 
+    
 })
