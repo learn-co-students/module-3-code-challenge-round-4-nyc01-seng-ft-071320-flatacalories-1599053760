@@ -11,15 +11,16 @@
 //When we submit with the button on add calories we need a fetch request to patch the number of calories we submit in the form √
 //Make a submit listener √
 //grab the value form the input √
-//put that value in a patch request
-//update the dom with the new amount of calories
+//put that value in a patch request √
+//update the dom with the new amount of calories √
 
 document.addEventListener('DOMContentLoaded', function() {
 
-    
+    //Grabbing the stuff I need to add things into
     const characterBar = document.querySelector('div#character-bar')
     const detailedInfo = document.querySelector('div#detailed-info')
 
+    //gets characters
     function getCharacters() {
         fetch('http://localhost:3000/characters')
         .then(response => response.json())
@@ -29,20 +30,24 @@ document.addEventListener('DOMContentLoaded', function() {
         })
     }
 
+    //renders characters
     function renderCharacters(characters){
         for(const character of characters) {
             characterBar.insertAdjacentHTML('beforeend', `<span id="${character.id}" class="character-card">${character.name}</span>`)
         }
     }
-
+    
+    //click handler using event delegation for click events
     function clickHandler() {
         document.addEventListener('click', function(e){
+            //Clicking show card
             if(e.target.matches('span.character-card')){
                 
                 let character = findCharacter(e.target.id)
                 renderCharacterInfo(character);
                 submitHandler(character)
             }
+            //Reset Button
             else if(e.target.matches('button#reset-btn')) {
                 let character = findCharacter(e.target.dataset.id)
                 let options = {
@@ -58,6 +63,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         'calories': 0 
                     })
                 }
+                //resetting calories through a patch
                 fetch(`http://localhost:3000/characters/${character.id}`, options)
                 .then(response => response.json())
                 .then(updatedChar => {
@@ -71,6 +77,7 @@ document.addEventListener('DOMContentLoaded', function() {
         })
     }
 
+    //Find the character
     function findCharacter(characterId) {
         let result = characters.find(character => {
             return character.id == characterId
@@ -78,6 +85,7 @@ document.addEventListener('DOMContentLoaded', function() {
         return result;
     }
 
+    //Renders Show Card
     function renderCharacterInfo(character) {
         detailedInfo.innerHTML = ''
         detailedInfo.insertAdjacentHTML('beforeend', `
@@ -95,9 +103,11 @@ document.addEventListener('DOMContentLoaded', function() {
         <button id="reset-btn" data-id="${character.id}">Reset Calories</button>`)
     }
 
+    //handles the submits
     function submitHandler() {
         document.addEventListener('submit', function (e) {
-            
+
+            //Code for when they want to add calories
             if(e.target.matches('form#calories-form')) {
                 let character = findCharacter(e.target.dataset.id)
                 let form = e.target.value
@@ -133,7 +143,7 @@ document.addEventListener('DOMContentLoaded', function() {
         })
     }
     
-
+    //calling on DOM load
     getCharacters();
     clickHandler();
 });
