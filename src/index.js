@@ -4,8 +4,9 @@ document.addEventListener('DOMContentLoaded', () => {
     // const fullChar = document.getElementById('detailed-info');
     const charP = document.getElementById('name');
     const charImg = document.getElementById('image');
-    const charSpan = document.getElementById('calories')
-    const form = document.getElementById('calories-form')
+    const charSpan = document.getElementById('calories');
+    const form = document.getElementById('calories-form');
+    const btn = document.getElementById('reset-btn')
 
     const getChars = () => {
         fetch(baseUrl)
@@ -76,11 +77,35 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
 
+    const resetYandler = () => {
+        btn.addEventListener("click", (e) => {
+            let id = parseInt(e.target.parentElement.children[3].dataset.id)
+            let calories = e.target.parentElement.children[2].children[0]
+            // debugger;
+
+            let config = {
+            method: "PATCH",
+            headers: {
+                "content-type": "application/json",
+                "accept": "application/json"
+            },
+            body: JSON.stringify({
+                calories: 0
+            })
+            }
+            fetch(baseUrl + id, config)
+            .then(resp => resp.json())
+            .then(data => {
+                calories.innerText = "0"
+            })
+        })
+    }
+
+
+
+
     getChars();
     clickYandler();
     submitYandler();
+    resetYandler();
 });
-
-
-    
-
