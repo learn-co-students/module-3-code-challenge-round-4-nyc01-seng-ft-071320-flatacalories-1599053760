@@ -2,6 +2,8 @@ document.addEventListener("DOMContentLoaded", function(e){
     const url = "http://localhost:3000/characters"
     const charBar = document.querySelector("#character-bar")
     const infoDeets = document.querySelector("#detailed-info")
+    const calories = document.querySelector("#calories")
+    // console.log(calories)
 
     fetchAllChars = ()=>{
         fetch(url)
@@ -31,10 +33,10 @@ document.addEventListener("DOMContentLoaded", function(e){
         `
         <p id="name">${character.name}</p>
         <img id="image" src=${character.image}>
-        <h4>Total Calories: <span id="calories">${character.calories}</span> </h4>
+        <h4>Total Calories: </h4> <h4><span id="calories">${character.calories}</span> </h4> 
         <form id="calories-form">
-            <input type="hidden" value=${character.id} id=${character.id}/> 
-            <input type="text" placeholder="Enter Calories" id="calories"/>
+            <input type="hidden" value="Character's Id" id=${character.id}/> 
+            <input type="number" name="calories" placeholder="Enter Calories"/>
             <input type="submit" value="Add Calories"/>
         </form>
         <button id="reset-btn">Reset Calories</button>
@@ -43,13 +45,36 @@ document.addEventListener("DOMContentLoaded", function(e){
     }
 
     charBar.addEventListener("click", function(e){
-        console.log("click")
         if(e.target.className === "charspan"){
             fetchCharacter(e.target.id)
         }
     })
 
-    
+    // updateCharacter = (cals, id) =>{
+    //     fetch(`${url}/${id}`, {
+    //         method: "PATCH", 
+    //         headers: {
+    //             "Content-Type": "application/json",
+    //             "Accepts": "application/json"
+    //         }, 
+    //         body: JSON.stringify({
+    //             "calories":cals
+    //         })
+    //     })
+    // }
+
+    infoDeets.addEventListener("submit", function(e){
+        e.preventDefault()
+        let currentCalories = e.target.parentElement.children[3].textContent
+        console.log(currentCalories)
+        // let updated = Number(e.target.calories.value) + Number(currentCalories)
+        // let id = e.target.children[0].id
+        // updateCharacter(updated, id)
+
+        // calories.textContent = updated
+        // e.target.reset()
+    })
+
 
 })
 
@@ -63,8 +88,8 @@ tag with the character's name to the character bar.
 
 DONE √ 2. Select a character from the character bar and see character's info inside 
 `#detailed-info` div. 
-//add click to characters - on each span  -find way to identify, add classname
-//when clicked, add charInfo to detailed info div
+  add click to characters - on each span  -find way to identify, add classname
+//when clicked, add charInfo to detailed info div, run fetchChar
 
  <div id="detailed-info">
                 <p id="name">Character's Name</p>
@@ -82,4 +107,9 @@ DONE √ 2. Select a character from the character bar and see character's info i
 
 3. Clicks on "Add Calories" button to add calories to a Character. 
 Persist calories value to the server and update the DOM.
+
+//submit listener for inpu4, grab calories value
+//grab user input to add to cal value - updated value
+//patch updated value to db
+
 */
