@@ -1,16 +1,22 @@
-// ######### DELIVERABLES ##############//
-
 document.addEventListener('DOMContentLoaded', function (e){
     fetchNames()
-
-}) // end of Content Loaded 
-
+}) 
+// ############## common variables ################
 let baseUrl = 'http://localhost:3000/characters/'
-
 let characterBar= document.querySelector('#character-bar')
-
 let detailedInfo = document.querySelector('#detailed-info')
 
+// click listener for names on character bar 
+document.addEventListener('click', function(e){
+    if(e.target.parentNode === characterBar){
+        console.log('character clicked')
+        console.log(e.target.id)
+        console.dir(e.target)
+        fetchCharacter(e.target.id)
+    }
+}) 
+
+// fetch for name bar 
 function fetchNames(){
     fetch(baseUrl)
     .then(function(response){
@@ -20,12 +26,14 @@ function fetchNames(){
         console.log(names)
         parseNames(names)
     })
-} // end of fetechNames 
+} 
 
+// iterate through initial fetch 
 function parseNames(names){
     names.forEach(renderNames)
 }
 
+// render names onto name bar 
 function renderNames(character){
     let barName = document.createElement('div')
     barName.setAttribute('span', character.name)
@@ -35,9 +43,7 @@ function renderNames(character){
     characterBar.append(barName)
 }
 
-// click listener to run fetch
-// functions to render the datat 
-
+// fetch character info based on id of name click 
 function fetchCharacter(id){
     fetch(baseUrl + id )
     .then(function(response){
@@ -47,34 +53,24 @@ function fetchCharacter(id){
         console.log(info)
         renderCharacterInfo(info)
     })
-} // end of fetchCharacter
+} 
 
+//change character card based on fetch 
 function renderCharacterInfo(info){
-console.log('entereed renderCharacterInfo')
+    //grab all the DOM nodes I want to change
+    // set them to data from my fetch 
+    document.querySelector('#name').innerText = info.name
+    document.querySelector('#image').src = info.image
+    document.querySelector('#calories').innerText = info.calories 
+    document.querySelector('#characterId').value = info.id 
+    document.querySelector('#calories-form').setAttribute('cal', info.calories)
+}
 
-//grab all the DOM nodes I want to change
-// set them to data from my fetch 
-
-document.querySelector('#name').innerText = info.name
-document.querySelector('#image').src = info.image
-document.querySelector('#calories').innerText = info.calories 
-document.querySelector('#characterId').value = info.id 
-document.querySelector('#calories-form').setAttribute('cal', info.calories)
-
-}// end of renderCharacterInfo 
-
-document.addEventListener('click', function(e){
-    if(e.target.parentNode === characterBar){
-        console.log('character clicked')
-        console.log(e.target.id)
-        console.dir(e.target)
-        fetchCharacter(e.target.id)
-    }
-}) // end of click listener 
-
+//submit listener for add calories button 
 document.addEventListener('submit', function(e){
     e.preventDefault()
-
+    console.log(e.target)
+    if(e.target.id === 'calories-form'){
     let charId = document.querySelector('#calories-form').children[0].value
 
     let newCalories = document.querySelector('#calories-form').children[1].value
@@ -85,8 +81,10 @@ document.addEventListener('submit', function(e){
   
     updateCalories(charId, updatedCal)
     console.log(charId, updatedCal)
-}) // end of my submit listener
+    } 
+}) 
 
+// update DOM and patch request to add calories to API 
 function updateCalories(id, calories){
     // update page rendering  
     document.querySelector('#calories').innerText = calories 
@@ -101,5 +99,19 @@ function updateCalories(id, calories){
         body: JSON.stringify(data)
     }
     fetch(baseUrl + id, options)
-}
+} 
+
+// reset button click listen 
+document.addEventListener('click', function(e){
+    if (e.target.id === 'reset-btn'){
+        console.log(e.target)
+        let charId = document.querySelector('#calories-form').children[0].value
+        updateCalories(charId, 0)
+    }
+})
+
+
+
+
+
 
