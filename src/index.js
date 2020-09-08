@@ -5,6 +5,7 @@ document.addEventListener('DOMContentLoaded', function (e){
 let baseUrl = 'http://localhost:3000/characters/'
 let characterBar= document.querySelector('#character-bar')
 let detailedInfo = document.querySelector('#detailed-info')
+// ################################################
 
 // click listener for names on character bar 
 document.addEventListener('click', function(e){
@@ -13,7 +14,7 @@ document.addEventListener('click', function(e){
         console.log(e.target.id)
         console.dir(e.target)
         fetchCharacter(e.target.id)
-    }
+    } 
 }) 
 
 // fetch for name bar 
@@ -35,8 +36,7 @@ function parseNames(names){
 
 // render names onto name bar 
 function renderNames(character){
-    let barName = document.createElement('div')
-    barName.setAttribute('span', character.name)
+    let barName = document.createElement('span')
     barName.setAttribute('id', character.id)
     barName.innerText=character.name
     console.log(barName)
@@ -63,15 +63,18 @@ function renderCharacterInfo(info){
     document.querySelector('#image').src = info.image
     document.querySelector('#calories').innerText = info.calories 
     document.querySelector('#characterId').value = info.id 
-    document.querySelector('#calories-form').setAttribute('cal', info.calories)
+    document.querySelector('#calories-form').dataset.cal=info.calories
+    
 }
 
 //submit listener for add calories button 
 document.addEventListener('submit', function(e){
     e.preventDefault()
     console.log(e.target)
+    //e.target is already the form 
     if(e.target.id === 'calories-form'){
-    let charId = document.querySelector('#calories-form').children[0].value
+    let charId = e.target.children[0].value
+    //no need for chilren in line above, inputs are already indexed by being wrapped in a form 
 
     let newCalories = document.querySelector('#calories-form').children[1].value
    
@@ -110,8 +113,11 @@ document.addEventListener('click', function(e){
     }
 })
 
+// ################## change character name ####################
 
 
 
-
-
+// notes ##################
+// data binding: taking stuff from API and binding it to DOM 
+// barName.setAttribute('id',character.id) is the same as barName.id=character.id 
+// using id (attribute) should be saved for styling, dataset is a better place to keep properties 
